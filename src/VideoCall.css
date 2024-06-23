@@ -1,0 +1,127 @@
+body,
+html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+.App {
+  text-align: center;
+  background-color: #151515;
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Video Container */
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  /* 16:9 aspect ratio */
+  overflow: hidden;
+}
+
+video {
+  position: fixed;
+  /* top: 0;
+  object-fit: fill;
+  left: 0;
+  width: 100%; */
+  height: 100%;
+  z-index: 1;
+  display: flex;
+}
+
+video::-webkit-media-controls-overlay-play-button {
+  display: none;
+}
+
+.video-overlay {
+  z-index: 2;
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  font-size: 18px;
+  align-items: center;
+}
+
+.video-overlay.above {
+ margin-top: 30px;
+}
+
+#joinBtn {
+  position: absolute;
+  bottom: 50px;
+  height: 40px;
+  transform: translateX(-50%)
+}
+
+.controls {
+  position: absolute;
+  bottom: 2vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  /* Adjust the z-index to be higher than the video and overlay */
+  width: 100%;
+}
+
+.controls button {
+  color: #fff;
+  width: 54px;
+  border: none;
+  padding: 10px 15px;
+  margin: 2vw;
+  cursor: pointer;
+  border-radius: 35px;
+  font-size: 14px;
+  height: 40px;
+}
+
+.control-button {
+  margin: 5px;
+  padding: 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.control-button.red {
+  background-color: #ff6666;
+}
+
+.self-camera {
+  position: absolute;
+  bottom: 10vh;
+  right: 19px;
+  width: 91px;
+  height: 134px;
+  overflow: hidden;
+  z-index: 4;
+}
+
+.self-camera video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+}
+
+button {
+  background-color: #0088cc;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  position: absolute;
+};
+
