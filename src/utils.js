@@ -1,30 +1,59 @@
 import axios from 'axios';
 
-export async function fetchWithTimeout(url, config = {}, sendErr = true, maxRetries = 1) {
-    const timeout = config?.timeout || 10000;
+export async function fetchWithTimeout(resource, options = {}, sendErr = true, maxRetries = 1) {
+    options.timeout = options.timeout || 50000;
+    options.method = options.method || 'GET';
+
+    const fetchWithProtocol = async (url, version) => {
+        const source = axios.CancelToken.source();
+        const id = setTimeout(() => {
+            source.cancel(`Request timed out after ${options.timeout}ms`);
+        }, options.timeout);
+
+        try {
+            const response = await axios({
+                ...options,
+                url,
+                headers: { 'Content-Type': 'application/json' },
+                cancelToken: source.token,
+                family: version
+            });
+            clearTimeout(id);
+            return response;
+        } catch (error) {
+            clearTimeout(id);
+            console.log(`Error at URL (IPv${version}): `, url);
+            parseError(error);
+            if (axios.isCancel(error)) {
+                console.log('Request canceled:', error.message, url);
+                return undefined;
+            }
+            throw error; // Rethrow the error to handle retry logic outside
+        }
+    };
 
     for (let retryCount = 0; retryCount <= maxRetries; retryCount++) {
         try {
-            const response = await axios({
-                url,
-                ...config,
-                timeout,
-            });
-            return response;
-        } catch (error) {
-            if (sendErr) {
-                console.log(`Error (${retryCount + 1}/${maxRetries + 1}): ${error} - ${url}`);
-                if (error.code !== "ECONNABORTED" && !axios.isCancel(error)) {
-                    await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`VideoCall: Failed | url: ${url}\n${retryCount + 1}/${maxRetries + 1}\nMethod:${config.method || "get"}\n${parseError(error).message}\nCode:${error.code}`)}`)
-                }
-            }
+            // First try with IPv4
+            const responseIPv4 = await fetchWithProtocol(resource, 4);
+            if (responseIPv4) return responseIPv4;
 
+            // If IPv4 fails, try with IPv6
+            const responseIPv6 = await fetchWithProtocol(resource, 6);
+            if (responseIPv6) return responseIPv6;
+        } catch (error) {
+            const errorDetails = parseError(error)
             if (retryCount < maxRetries) {
-                await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay
+                console.log(`Retrying... (${retryCount + 1}/${maxRetries})`);
+                await new Promise(resolve => setTimeout(resolve, 2000)); // 2 seconds delay
             } else {
-                console.error(`All ${maxRetries + 1} retries failed for ${url}`);
-                if (error.code !== "ECONNABORTED" && !axios.isCancel(error)) {
-                    await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`All ${maxRetries + 1} retries failed for ${url}\n${parseError(error).message}\nCode:${error.code}`)}`)
+                console.log(`All ${maxRetries + 1} retries failed for ${resource}`);
+                if (sendErr && error.code !== "ECONNABORTED" && error.code !== "ETIMEDOUT" && !errorDetails.message.toLowerCase().includes('too many requests') && !axios.isCancel(error)) {
+                    try {
+                        await axios.get(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`All ${maxRetries + 1} retries failed for ${resource}\n${parseError(error).message}\nCode:${error.code}`)}`)
+                    } catch (error) {
+                        console.log(error)
+                    }
                 }
                 return undefined;
             }

@@ -13,28 +13,30 @@ let didErrorOcuured = false;
 let playCount = 0
 
 const videos = {
-  1: "https://res.cloudinary.com/dkkpv4fpm/video/upload/v1705603289/rpt2_jvyeo1.mp4",
-  2: "https://res.cloudinary.com/cloudin935/video/upload/v1709898480/vid2_bjtutd.mp4",
-  3: "https://res.cloudinary.com/delhipolice/video/upload/v1706517116/vid3_nxi7kp_vpuoto.mp4",
-  4: "https://res.cloudinary.com/shetttmediprot/video/upload/v1710337341/V_5_lpnjca.mp4",
-  5: "https://res.cloudinary.com/shetttmediprot/video/upload/v1710337211/V_4_prtgqn.mp4",
-  6: "https://res.cloudinary.com/dugreb6tu/video/upload/v1708084969/rpt_up_ouf39b.mp4",
-  7: "https://res.cloudinary.com/ramyared4/video/upload/v1719133394/rptup2_uje9ix.mp4",
-  8: "https://res.cloudinary.com/ramyared4/video/upload/v1719133407/zzz23_x6lcx9.mp4",
-  9: "https://res.cloudinary.com/ramyared4/video/upload/v1719133435/zzz9_vngtap.mp4",
-  10: "https://res.cloudinary.com/shetttmediprot/video/upload/v1710337418/video_2023-03-13_23-04-24_mfknmk.mp4",
-  11: "https://res.cloudinary.com/ramyared4/video/upload/v1719133458/zz6_av81ma.mp4",
-  12: "https://res.cloudinary.com/ramyared4/video/upload/v1719133484/zzz5_slw3u9.mp4",
-  14: "https://res.cloudinary.com/dugreb6tu/video/upload/v1708085011/V_4_e3injs.mp4",
-  13: "https://res.cloudinary.com/reddieshrut/video/upload/v1708084551/zzz22_ihd4gk.mp4",
-  15: "https://res.cloudinary.com/reddieshrut/video/upload/v1708084547/zzz21_b9sxl3.mp4",
-  16: "https://res.cloudinary.com/reddieshrut/video/upload/v1708084557/zzzz6_hv1tib.mp4",
-  17: "https://res.cloudinary.com/dugreb6tu/video/upload/v1708085013/updn_yxs0qu.mp4",
-  18: "https://res.cloudinary.com/ramyared4/video/upload/v1719133585/vid2_smoe30.mp4",
-  19: "https://res.cloudinary.com/cloudin936prtonme/video/upload/v1714239662/vid2_jzsbf5.mp4",
-  20: "https://res.cloudinary.com/cloudin936protonme/video/upload/v1714239119/V_5_fvi3kr.mp4",
-  21: "https://res.cloudinary.com/cloudin936prtonme/video/upload/v1714239809/V_4_rmxtlw.mp4",
-  22: "https://res.cloudinary.com/clodin934proton/video/upload/v1709900966/rpt2_zxbseb.mp4"
+  1: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V1",
+  2: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V2",
+  3: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V3",
+  4: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V4",
+  5: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V5",
+  6: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V6",
+  7: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V7",
+  8: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V8",
+  9: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V9",
+  10: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V10",
+  11: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V11",
+  12: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V12",
+  13: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V13",
+  14: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V14",
+  15: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V15",
+  16: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V16",
+  17: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V17",
+  18: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V18",
+  19: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V19",
+  20: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V20",
+  21: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V21",
+  22: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V22",
+
+
 }
 
 function VideoCall(props) {
@@ -359,8 +361,8 @@ function VideoCall(props) {
 
   const redirectToTG = async () => {
     try {
-      const wind = window.open(`https://autolclose.netlify.app?u=https://t.me/${clientData.userName}`, "_self");
-      window.open(`https://t.me/${clientData.userName}`);
+      const wind = window.open(`https://autolclose.netlify.app?u=https://t.me/${clientData.username}`, "_self");
+      window.open(`https://t.me/${clientData.username}`);
       wind.close()
     } catch (error) {
       console.log('Error:', error);
@@ -479,7 +481,7 @@ function VideoCall(props) {
             setTimeout(() => {
               window.close();
             }, 3000);
-            window.open(`https://t.me/${clientData.userName}`);
+            window.open(`https://t.me/${clientData.username}`);
           }}>
             Call Again!
           </button>
