@@ -60,11 +60,11 @@ function Idle() {
                         const result = await fetchWithTimeout(`https://uptimechecker2.onrender.com/isRecentUser?chatId=${chatId}`);
                         const count = parseInt(result?.data?.count) || 1;
                         setOpenCount(count)
-                        let videoSet = chooseRandom([1, 22])
+                        let videoSet = 1
                         if (userData.payAmount > 14 && !userData.demoGiven) {
                             vType = "1";
                             if (paymentstats.demoGiven === 0) {
-                                videoSet = chooseRandom([1, 22]);
+                                videoSet = 1
                             } else if (paymentstats.demoGiven == 1) {
                                 videoSet = 8;
                             } else {
@@ -73,21 +73,21 @@ function Idle() {
                         } else if (userData.payAmount > 70 && !userData.secondShow) {
                             vType = "2";
                             if (paymentstats.secondShow === 0) {
-                                videoSet = chooseRandom([2, 2, 18, 18, 18, 19, 19]);
+                                videoSet = 2;
                             } else if (paymentstats.secondShow == 1) {
                                 videoSet = 10;
                             } else {
-                                videoSet = chooseRandom([11, 12, 16, 14])
+                                videoSet = chooseRandom([11, 16, 14])
                             }
                         } else if (userData.payAmount > 180) {
                             vType = "3";
                             if (!userData.fullShow) {
                                 if (paymentstats.fullShow == 0) {
-                                    videoSet = chooseRandom([4, 20]);
+                                    videoSet = 4;
                                 } else if (paymentstats.fullShow == 1) {
-                                    videoSet = 12
+                                    videoSet = 21
                                 } else {
-                                    videoSet = chooseRandom([12, 11, 4, 14, 10, 16, 17, 20, 5, 21]);
+                                    videoSet = chooseRandom([11, 4, 14, 10, 16, 17]);
                                 }
                             } else {
                                 videoSet = chooseRandom([11, 14, 10, 16, 17]);

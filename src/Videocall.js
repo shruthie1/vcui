@@ -35,8 +35,6 @@ const videos = {
   20: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V20",
   21: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V21",
   22: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V22",
-
-
 }
 
 function VideoCall(props) {
