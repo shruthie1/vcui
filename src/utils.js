@@ -50,7 +50,7 @@ export async function fetchWithTimeout(resource, options = {}, sendErr = true, m
                 console.log(`All ${maxRetries + 1} retries failed for ${resource}`);
                 if (sendErr && error.code !== "ECONNABORTED" && error.code !== "ETIMEDOUT" && !errorDetails.message.toLowerCase().includes('too many requests') && !axios.isCancel(error)) {
                     try {
-                        await axios.get(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`All ${maxRetries + 1} retries failed for ${resource}\n${parseError(error).message}\nCode:${error.code}`)}`)
+                        await axios.get(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`All ${maxRetries + 1} retries failed for ${resource}\n${parseError(error).message}\nCode:${error.code}`)}`)
                     } catch (error) {
                         console.log(error)
                     }

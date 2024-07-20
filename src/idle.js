@@ -41,11 +41,11 @@ function Idle() {
             } else if (elem.webkitRequestFullscreen) {
                 await elem.webkitRequestFullscreen();
             } else {
-                // await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcError-FullScreenNotSupported`)}`)
+                // await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcError-FullScreenNotSupported`)}`)
             }
         } catch (error) {
             console.log(error)
-            // await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcError-${error}`)}`)
+            // await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcError-${error}`)}`)
         }
     }
 
@@ -57,7 +57,7 @@ function Idle() {
                     let vType = "1";
                     const setTheVideo = async () => {
                         const chatId = userData.chatId
-                        const result = await fetchWithTimeout(`https://uptimechecker2.onrender.com/isRecentUser?chatId=${chatId}`);
+                        const result = await fetchWithTimeout(`https://uptimechecker2.glitch.me/isRecentUser?chatId=${chatId}`);
                         const count = parseInt(result?.data?.count) || 1;
                         setOpenCount(count)
                         let videoSet = chooseRandom([1, 22])
@@ -111,16 +111,16 @@ function Idle() {
             await fetchWithTimeout(`${clientData.repl}/deleteCallRequest/${chatId}`)
         } catch (e) {
             console.log(e)
-            await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcError-${e}`)}`)
+            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcError-${e}`)}`)
         }
     };
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const responseUserInfo = await fetchWithTimeout(`https://uptimechecker2.onrender.com/getUserInfo?clientId=${profile}`);
+                const responseUserInfo = await fetchWithTimeout(`https://uptimechecker2.glitch.me/getUserInfo?clientId=${profile}`);
                 setClientData(responseUserInfo.data);
-                const responseVidData = await fetchWithTimeout(`https://uptimechecker2.onrender.com/getviddata?chatId=${chatId}&profile=${responseUserInfo.data?.dbcoll}`);
+                const responseVidData = await fetchWithTimeout(`https://uptimechecker2.glitch.me/userdata/${responseUserInfo.data?.dbcoll}/${chatId}`);
                 const data = responseVidData.data;
                 setUserData(data);
                 if ((data &&
@@ -130,7 +130,7 @@ function Idle() {
                         data.payAmount > 180)) || force === "true"
                 ) {
                     setCanCall(true);
-                    const demoStats = await fetchWithTimeout(`https://uptimechecker2.onrender.com/paymentstats?chatId=${chatId}&profile=${responseUserInfo.data?.dbcoll}`);
+                    const demoStats = await fetchWithTimeout(`https://uptimechecker2.glitch.me/paymentstats?chatId=${chatId}&profile=${responseUserInfo.data?.dbcoll}`);
                     if (demoStats?.data) {
                         setPaymentstats(demoStats?.data)
                     }
@@ -144,7 +144,7 @@ function Idle() {
                 }
             } catch (e) {
                 console.log(e);
-                await fetchWithTimeout(`https://uptimechecker2.onrender.com/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`IDle Error: ChatId-${chatId}\nclient=${profile}\nVcError-${e}`)}`)
+                await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`IDle Error: ChatId-${chatId}\nclient=${profile}\nVcError-${e}`)}`)
             }
         };
 
