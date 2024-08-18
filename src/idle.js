@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import VideoCall from './Videocall';
 import axios from 'axios';
 import TelegramUI from './startPage';
-import { fetchWithTimeout } from './utils';
+import { fetchWithTimeout, parseError } from './utils';
 
 function Idle() {
     const { profile, chatId, defvid, force } = useParams();
@@ -41,11 +41,12 @@ function Idle() {
             } else if (elem.webkitRequestFullscreen) {
                 await elem.webkitRequestFullscreen();
             } else {
-                // await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcError-FullScreenNotSupported`)}`)
+                await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcError-FullScreenNotSupported`)}`)
             }
         } catch (error) {
             console.log(error)
-            // await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcError-${error}`)}`)
+            const errorDetails = parseError(error)
+            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcError-${errorDetails}`)}`)
         }
     }
 
