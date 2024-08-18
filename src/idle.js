@@ -46,7 +46,7 @@ function Idle() {
         } catch (error) {
             console.log(error)
             const errorDetails = parseError(error)
-            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcError-${errorDetails}`)}`)
+            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcError-${errorDetails.message}`)}`)
         }
     }
 

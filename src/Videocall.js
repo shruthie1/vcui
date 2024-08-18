@@ -88,7 +88,7 @@ function VideoCall(props) {
         setMessage("Failed to Connect");
         const msg = getErrorMsg(e);
         await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ENDED ABRUBTLY:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nvideo:${video}\nVcError-${msg}`)}`)
-        await fetchWithTimeout(`${clientData.repl}/sendMessage/${userData.chatId}?force=true&msg=${encodeURIComponent(`It's Failed to Connect\n\nCOPY PASTE the Link in CHROME/ANOTHER BROWSER...!!\nThen it will work!\n\n\nhttps://ZomCall.netlify.app/${clientData.clientId}/${userData.chatId}`)}`);
+        await fetchWithTimeout(`${clientData.repl}/sendMessage/${userData.chatId}?force=true&msg=${encodeURIComponent(`It's Failed to Connect\n\nCOPY PASTE the Link in **CHROME/ANOTHER BROWSER**...!!\nThen it will work!\n\n\nhttps://ZomCall.netlify.app/${clientData.clientId}/${userData.chatId}`)}`);
       } catch (error) {
         await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${error}`)}`)
       }
