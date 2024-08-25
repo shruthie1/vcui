@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import VideoCall from './Videocall';
-import axios from 'axios';
 import TelegramUI from './startPage';
 import { fetchWithTimeout, parseError } from './utils';
 
@@ -11,8 +10,7 @@ function Idle() {
     const [canCall, setCanCall] = useState(false);
     const [clientData, setClientData] = useState(null)
     const [userData, setUserData] = useState(null)
-    const [loading, setLoading] = useState(true); // New loading state
-    const [videoPermission, setVideoPermission] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [paymentstats, setPaymentstats] = useState({
         "paid": 0,
         "demoGiven": 0,

@@ -53,11 +53,11 @@ function VideoCall(props) {
   const selfCameraMainRef = useRef();
 
   useEffect(() => {
-    const handleBackButton = (event) => {
-      event.preventDefault();
-    };
-    window.addEventListener('popstate', handleBackButton);
-    window.addEventListener('beforeunload', handleBackButton);
+    // const handleBackButton = (event) => {
+    //   event.preventDefault();
+    // };
+    // window.addEventListener('popstate', handleBackButton);
+    // window.addEventListener('beforeunload', handleBackButton);
   }, [])
 
   const handleVideoEnded = async () => {
