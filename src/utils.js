@@ -78,3 +78,7 @@ export function parseError(
         ? `${prefix}::${message}` : message;
     return { status, message: msg, error };
 }
+
+export function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}

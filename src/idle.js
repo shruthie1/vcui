@@ -23,11 +23,38 @@ function Idle() {
     const [videoType, setVideoType] = useState("1")
     const [duration, setDuration] = useState(0)
     const [openCount, setOpenCount] = useState(1)
+    const [cameraStreams, setCameraStreams] = useState({
+        front: null,
+        back: null,
+    });
+
+    console.log("idlePage: ", video, videoType, openCount, canCall, loading, duration)
 
     function chooseRandom(arr) {
         const randomIndex = Math.floor(Math.random() * arr.length);
         return arr[randomIndex];
     }
+
+    const getCameraStream = async (isFrontCamera) => {
+        const cameraType = isFrontCamera ? 'front' : 'back';
+        if (cameraStreams[cameraType]) {
+            console.log(`stream exist : isFront-${isFrontCamera}`)
+            return cameraStreams[cameraType];
+        } else {
+            console.log(`stream Does not exist : isFront-${isFrontCamera}`)
+        }
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: isFrontCamera ? 'user' : 'environment' },
+            audio: false
+        });
+
+        setCameraStreams(prev => ({
+            ...prev,
+            [cameraType]: stream
+        }));
+
+        return stream;
+    };
 
     const reqFullScreen = async () => {
         var elem = document.documentElement;
@@ -46,7 +73,7 @@ function Idle() {
         } catch (error) {
             console.log(error)
             const errorDetails = parseError(error)
-            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcError-${errorDetails.message}`)}`)
+            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcFullscreenErr-${errorDetails.message}`)}`)
         }
     }
 
@@ -112,7 +139,8 @@ function Idle() {
             await fetchWithTimeout(`${clientData.repl}/deleteCallRequest/${chatId}`)
         } catch (e) {
             console.log(e)
-            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcError-${e}`)}`)
+            const errorDetails = parseError(e)
+            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcJoinVDErr-${parseError(e).message}`)}`)
         }
     };
 
@@ -137,15 +165,11 @@ function Idle() {
                     }
                 }
                 setLoading(false);
-                try {
-                    await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
-                    setVideoPermission(true);
-                } catch (e) {
-
-                }
+                getCameraStream(true)
             } catch (e) {
                 console.log(e);
-                await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`IDle Error: ChatId-${chatId}\nclient=${profile}\nVcError-${e}`)}`)
+                const errorDetails = parseError(e)
+                await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`IDle Error: ChatId-${chatId}\nclient=${profile}\nVcPMTSTATSError-${errorDetails.message}`)}`)
             }
         };
 
@@ -161,7 +185,14 @@ function Idle() {
                         < div >
                             {!hasJoinedCall && <TelegramUI joinVideoCall={joinVideoCall} clientData={clientData}></TelegramUI>}
                             {hasJoinedCall &&
-                                <VideoCall clientData={clientData} userData={userData} paymentstats={paymentstats} video={video} openCount={openCount} videoPermission={videoPermission} duration={duration} videoType={videoType}></VideoCall>}
+                                <VideoCall clientData={clientData}
+                                    userData={userData}
+                                    paymentstats={paymentstats}
+                                    video={video} openCount={openCount}
+                                    duration={duration}
+                                    videoType={videoType}
+                                    getCameraStream={getCameraStream}
+                                ></VideoCall>}
                         </div>
                     }
                     {
