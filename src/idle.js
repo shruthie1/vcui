@@ -175,12 +175,12 @@ function Idle() {
     }, []);
 
     return (
-        <div>
-            {loading && <div style={{ marginTop: '5vh' }}>Loading...</div>}
+        <div style={{height:"100%"}}>
+            {loading && <div  className='idle-app' style={{ paddingTop: '5vh' }}>Loading...</div>}
             {!loading &&
-                <div>
+                <div style={{height:"100%"}}>
                     {canCall && paymentstats.demoGiven < 4 &&
-                        < div >
+                        < div style={{ height: "100%"}}>
                             {!hasJoinedCall && <TelegramUI joinVideoCall={joinVideoCall} clientData={clientData}></TelegramUI>}
                             {hasJoinedCall &&
                                 <VideoCall clientData={clientData}

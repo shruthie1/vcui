@@ -7,6 +7,7 @@ const TelegramUI = (props) => {
     const containerStyle = {
         textAlign: 'center',
         padding: '20px',
+        height: "100%"
     };
 
     const logoStyle = {
@@ -15,7 +16,7 @@ const TelegramUI = (props) => {
     };
 
     return (
-        <div style={containerStyle}>
+        <div className='idle-app' style={containerStyle}>
             <img src={logo} alt="Telegram Logo" style={logoStyle} />
             <h1>{clientData?.name}</h1>
             <button style={{ transform: 'translateX(-50%)',   bottom: '50px'}} onClick={joinVideoCall}>Start Video Call</button>
