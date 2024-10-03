@@ -326,9 +326,9 @@ function VideoCall(props) {
             if (dur > 200 || openCount > 2 || exec === 'videoEnd' || (exec === 'endCall' && dur > 120)) {
               await fetchWithTimeout(`${clientData.repl}/executehsl/${userData.chatId}?${query}`);
               if (userData.fullShow) {
-                await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { limitTime: 1000 * 60 * 60 * 2, fullShow: userData.fullShow + 1, paidReply: false });
+                await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { limitTime: Date.now() + 1000 * 60 * 60 * 2, fullShow: userData.fullShow + 1, paidReply: false });
               } else {
-                await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { limitTime: 1000 * 60 * 180, payAmount: 150, fullShow: 1, paidReply: false });
+                await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { limitTime: Date.now() + 1000 * 60 * 180, payAmount: 150, fullShow: 1, paidReply: false });
               }
             }
             // if ((paymentstats.paid > 2 && (dur > 30 || openCount > 2))) {
