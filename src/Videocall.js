@@ -336,7 +336,7 @@ function VideoCall(props) {
             // }
           }
           if (openCount > 3) {
-            await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { limitTime: 1000 * 60 * 400, paidReply: false });
+            await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { limitTime: Date.now() + 1000 * 60 * 400, paidReply: false });
           }
         } catch (error) {
           await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ErrorExceHS:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcEendingrror-${parseError(error).message}`)}`);
