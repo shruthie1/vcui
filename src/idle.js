@@ -202,7 +202,7 @@ function Idle() {
                         !canCall &&
                         <div>
                             <div style={{ marginTop: '5vh', fontWeight: "bolder" }}>Finish Payment</div>
-                            <div style={{ marginTop: "65vh" }}>
+                            <div style={{ marginTop: "60vh" }}>
                                 <button
                                     style={{ position: "relative", backgroundColor: 'rgb(55 173 72)' }}
                                     onClickCapture={() => {

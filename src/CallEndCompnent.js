@@ -32,7 +32,7 @@ const CallEndComponent = ({ clientData, finishedCall }) => {
   return (
     <div>
       <h3 style={{marginTop: '10vh'}}>Call Ended</h3>
-      <div style={{ marginTop: "65vh" }}>
+      <div style={{ marginTop: "55vh" }}>
         <button className='report-button' onClick={() => window.open(`https://t.me/${clientData.username}`, '_blank')}>
           Open Telegram {counter > 0 ? `in ${counter} secs` : ''}
         </button>
