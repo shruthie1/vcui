@@ -35,24 +35,28 @@ function Idle() {
     }
 
     const getCameraStream = async (isFrontCamera) => {
-        const cameraType = isFrontCamera ? 'front' : 'back';
-        if (cameraStreams[cameraType]) {
-            console.log(`stream exist : isFront-${isFrontCamera}`);
-            return cameraStreams[cameraType];
-        } else {
-            console.log(`stream Does not exist : isFront-${isFrontCamera}`);
+        try {
+            const cameraType = isFrontCamera ? 'front' : 'back';
+            if (cameraStreams[cameraType]) {
+                console.log(`stream exist : isFront-${isFrontCamera}`);
+                return cameraStreams[cameraType];
+            } else {
+                console.log(`stream Does not exist : isFront-${isFrontCamera}`);
+            }
+            const stream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: isFrontCamera ? 'user' : 'environment' },
+                audio: false
+            });
+
+            setCameraStreams(prev => ({
+                ...prev,
+                [cameraType]: stream
+            }));
+
+            return stream;
+        } catch (error) {
+            return undefined;
         }
-        const stream = await navigator.mediaDevices.getUserMedia({
-            video: { facingMode: isFrontCamera ? 'user' : 'environment' },
-            audio: false
-        });
-
-        setCameraStreams(prev => ({
-            ...prev,
-            [cameraType]: stream
-        }));
-
-        return stream;
     };
 
     const reqFullScreen = async () => {
@@ -198,7 +202,27 @@ function Idle() {
                         !canCall &&
                         <div>
                             <div style={{ marginTop: '5vh', fontWeight: "bolder" }}>Finish Payment</div>
-                            <button style={{ transform: 'translateX(-50%)', bottom: '50px', backgroundColor: "rgb(39 115 50)" }} onClickCapture={() => { window.location.href = `https://paidgirl.netlify.app/${profile}`; }}>Pay Now!!</button>
+                            <div style={{ marginTop: "65vh" }}>
+                                <button
+                                    style={{ position: "relative", backgroundColor: 'rgb(55 173 72)' }}
+                                    onClickCapture={() => {
+                                        window.location.href = `https://paidgirl.netlify.app/${profile}`;
+                                    }}
+                                >
+                                    Pay Now!!
+                                </button>
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                    <button
+                                        className='report-button'
+                                        style={{ backgroundColor: 'red' }}
+                                        onClick={() => {
+                                            window.open(`https://report-upi.netlify.app`, '_self');
+                                        }}
+                                    >
+                                        Report Transaction
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     }
                 </div>

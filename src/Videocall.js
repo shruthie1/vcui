@@ -6,6 +6,7 @@ import { Mic, MicOff, Videocam, VideocamOff, Cameraswitch, CallEnd } from '@mui/
 import audio from './audio.mp3';
 import axios from 'axios';
 import { fetchWithTimeout, parseError, sleep } from './utils';
+import CallEndComponent from './CallEndCompnent';
 let timer;
 let didEndCall = false;
 let didErrorOcuured = false;
@@ -350,7 +351,7 @@ function VideoCall(props) {
         data: JSON.stringify(payload),
       };
       await fetchWithTimeout(`https://uptimechecker2.glitch.me/isRecentUser?chatId=${userData.chatId}`, options, true, 0);
-      await redirectToTG();
+      // await redirectToTG();
     }
   };
 
@@ -470,19 +471,7 @@ function VideoCall(props) {
           </IconButton>
         </div>
       </div>}
-      {
-        finishedCall && <div>
-          <button style={{ transform: 'translateX(-50%)', bottom: '50px' }} onClick={() => {
-            setTimeout(() => {
-              window.close();
-            }, 3000);
-            window.open(`https://t.me/${clientData.username}`);
-          }}>
-            Call Again!
-          </button>
-        </div>
-
-      }
+      {finishedCall && <CallEndComponent clientData={clientData} finishedCall={finishedCall} />}
     </div >
   );
 }
