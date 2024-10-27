@@ -19,8 +19,8 @@ const TimerHeader = (props) => {
                 };
             };
         };
-        startCallTimer()
-    }, [props.callState])
+        startCallTimer();
+    }, [props.callState]);
     const formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
@@ -31,7 +31,7 @@ const TimerHeader = (props) => {
 
     const handleContextMenu = (e) => {
         e.preventDefault();
-      };
+    };
     return (
         <div onContextMenu={handleContextMenu}>
             {props.message && (
@@ -39,12 +39,14 @@ const TimerHeader = (props) => {
                     <p>{props.message}</p>
                 </div>
             )}
-            <div className="video-overlay" style={{ minWidth: "180px" }}>
+            <div className="video-overlay">
                 <h3>{props.name}</h3>
                 <p style={{ display: (!props.message && props.callState == 'playing') ? 'block' : 'none' }}>{formatTime(callDuration)}</p>
+                {props.networkMessage && <p className="network-message blink" style={{marginTop: '30px'}}>{props.networkMessage}</p>}
             </div>
-        </div>
-    )
-}
 
-export default TimerHeader
+        </div>
+    );
+};
+
+export default TimerHeader;

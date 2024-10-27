@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import VideoCall from './Videocall';
 import TelegramUI from './startPage';
 import { fetchWithTimeout, parseError } from './utils';
+import CircularProgress from '@mui/material/CircularProgress';
+import IconButton from '@mui/material/IconButton';
 
 function Idle() {
     const { profile, chatId, defvid, force } = useParams();
@@ -10,7 +12,9 @@ function Idle() {
     const [canCall, setCanCall] = useState(false);
     const [clientData, setClientData] = useState(null);
     const [userData, setUserData] = useState(null);
+    const [isPaying, setIsPaying] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [isReporting, setIsReporting] = useState(false);
     const [paymentstats, setPaymentstats] = useState({
         "paid": 0,
         "demoGiven": 0,
@@ -26,8 +30,6 @@ function Idle() {
         front: null,
         back: null,
     });
-
-    console.log("idlePage: ", video, videoType, openCount, canCall, loading, duration);
 
     function chooseRandom(arr) {
         const randomIndex = Math.floor(Math.random() * arr.length);
@@ -76,7 +78,7 @@ function Idle() {
         } catch (error) {
             console.log(error);
             const errorDetails = parseError(error);
-            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcFullscreenErr-${errorDetails.message}`)}`);
+            // await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${chatId}\nclient=${profile}\nVcFullscreenErr-${errorDetails.message}`)}`);
         }
     };
 
@@ -177,11 +179,17 @@ function Idle() {
         };
 
         fetchData();
+        fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Opened VcUI: ${profile} ${chatId}`)}`);
+
     }, []);
 
     return (
         <div style={{ height: "100%" }}>
-            {loading && <div className='idle-app' style={{ paddingTop: '5vh' }}>Loading...</div>}
+            {(loading || isReporting || isPaying) &&
+                <IconButton className='idle-app' style={{ paddingTop: '5vh', color: "grey" }}>
+                    {<CircularProgress size={50} thickness={5} color='inherit'></CircularProgress>}
+                </IconButton>
+            }
             {!loading &&
                 <div style={{ height: "100%" }}>
                     {canCall && (paymentstats.demoGiven < 4 || paymentstats.latestCallTime < Date.now() - 24 * 60 * 60 * 1000) &&
@@ -198,28 +206,31 @@ function Idle() {
                                 ></VideoCall>}
                         </div>
                     }
-                    {
-                        !canCall &&
+                    {!canCall &&
                         <div>
                             <div style={{ marginTop: '5vh', fontWeight: "bolder" }}>Finish Payment</div>
                             <div style={{ marginTop: "60vh" }}>
                                 <button
                                     style={{ position: "relative", backgroundColor: 'rgb(55 173 72)' }}
                                     onClickCapture={() => {
+                                        setIsPaying(true); // Set loading state
                                         window.location.href = `https://paidgirl.netlify.app/${profile}`;
                                     }}
                                 >
-                                    Pay Now!!
+                                    {isReporting ? 'Please wait...' : 'Pay Now'}
                                 </button>
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                                     <button
                                         className='report-button'
-                                        style={{ backgroundColor: 'red' }}
-                                        onClick={() => {
-                                            window.open(`https://report-upi.netlify.app`, '_self');
+                                        style={{ backgroundColor: isReporting ? "grey" : 'red' }}
+                                        disabled={isReporting} // Disable button if loading
+                                        onClick={async () => {
+                                            setIsReporting(true); // Set loading state
+                                            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Report Button clicked: ${userData.chatId}`)}`);
+                                            window.open(`https://report-upi.netlify.app/${profile}/${chatId}`, '_self');
                                         }}
                                     >
-                                        Report Transaction
+                                        {isReporting ? 'Please wait...' : 'Report Transaction'}
                                     </button>
                                 </div>
                             </div>

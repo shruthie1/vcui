@@ -1,0 +1,209 @@
+/* App.css */
+
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #e2ad5d 0%, #f6e1cd 100%); /* Orangish-white gradient */
+  margin: 0; /* Remove default body margin */
+}
+
+.App {
+  max-width: 600px; /* Limit the maximum width */
+  padding: 20px; /* Padding around the content */
+  border-radius: 8px; /* Rounded corners */
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center; /* Center content vertically */
+  box-sizing: border-box; /* Include padding and border in height/width */
+  min-height: 100vh; /* Minimum height of full viewport */
+  overflow-y: auto;
+}
+
+h2 {
+  text-align: center;
+  color: #cc0000; /* NPCI Red */
+}
+
+.form {
+  display: flex;
+  flex-direction: column; /* Stack form groups vertically */
+  flex-grow: 1; /* Allow the form to grow and fill the available space */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column; /* Stack label and input vertically */
+  margin-bottom: 15px; /* Spacing between form groups */
+}
+
+label {
+  margin-bottom: 5px; /* Space between label and input */
+  color: #0033a0; /* NPCI Blue */
+  font-weight: bold; /* Bold label text */
+}
+
+input,
+textarea,
+select {
+  padding: 10px; /* Padding inside inputs */
+  margin-bottom: 10px; /* Space below inputs */
+  border: 1px solid #cccccc; /* Border color */
+  border-radius: 5px; /* Rounded corners */
+  width: 100%; /* Full width */
+  box-sizing: border-box; /* Include padding/border in width calculations */
+}
+
+textarea {
+  resize: vertical; /* Allow vertical resizing only */
+}
+
+button {
+  background-color: #0033a0; /* Button background color */
+  color: white; /* Button text color */
+  padding: 10px 15px; /* Button padding */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 16px; /* Font size */
+  margin-top: 10px; /* Space above button */
+}
+
+button:hover {
+  background-color: #002080; /* Darker blue on hover */
+}
+
+.toggle-switch {
+  display: block; /* Stack toggle switch vertically */
+  margin-top: 20px; /* Space above toggle */
+}
+
+.switch {
+  float: right; /* Align toggle switch to the right */
+  position: relative; /* For positioning slider */
+  width: 50px; /* Width of toggle */
+  height: 24px; /* Height of toggle */
+}
+
+.switch input {
+  opacity: 0; /* Hide default checkbox */
+  width: 0; /* No width */
+  height: 0; /* No height */
+}
+
+.slider {
+  position: absolute; /* Position of the slider */
+  cursor: pointer; /* Pointer cursor on hover */
+  top: 0; /* Align to top */
+  left: 0; /* Align to left */
+  right: 0; /* Align to right */
+  bottom: 0; /* Align to bottom */
+  background-color: #ccc; /* Default background */
+  transition: 0.4s; /* Transition effect */
+  border-radius: 24px; /* Rounded edges */
+}
+
+.slider:before {
+  position: absolute; /* Position of the toggle */
+  content: "";
+  height: 16px; /* Height of toggle */
+  width: 16px; /* Width of toggle */
+  left: 4px; /* Align left */
+  bottom: 4px; /* Align bottom */
+  background-color: white; /* Background color of toggle */
+  transition: 0.4s; /* Transition effect */
+  border-radius: 50%; /* Round toggle */
+}
+
+input:checked + .slider {
+  background-color: #0033a0; /* Change background when checked */
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px); /* Move toggle to the right */
+}
+
+.message-page {
+  text-align: center; /* Center text */
+  padding: 20px; /* Padding for message pages */
+}
+
+.success h1 {
+  color: green; /* Color for success messages */
+}
+
+.failure h1 {
+  color: red; /* Color for failure messages */
+}
+
+.back-button {
+  display: inline-block; /* Inline block for button */
+  margin-top: 20px; /* Space above button */
+  padding: 10px 20px; /* Button padding */
+  background-color: #0033a0; /* Button background color */
+  color: white; /* Button text color */
+  text-decoration: none; /* Remove underline */
+  border-radius: 5px; /* Rounded corners */
+}
+
+.back-button:hover {
+  background-color: #002080; /* Darker blue on hover */
+}
+
+.home-button:hover {
+  background-color: #0056b3; /* Change color on hover */
+}
+
+.FindTransaction {
+  max-width: 600px; /* Limit maximum width */
+  margin: auto; /* Center margin */
+  padding: 0px 20px; /* Padding around */
+  min-height: 100vh; /* Minimum height of full viewport */
+  overflow-y: auto;
+}
+
+.transaction-details {
+  margin-top: 20px; /* Space above transaction details */
+  padding: 15px; /* Padding inside */
+  border: 1px solid #ddd; /* Border color */
+  border-radius: 5px; /* Rounded corners */
+}
+
+.error-message {
+  color: red; /* Color for error messages */
+}
+
+/* Add to your existing CSS */
+
+.file-upload {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.file-upload-label {
+  display: inline-block;
+  padding: 15px 20px;
+  max-width: 90%;
+  background-color: #0033a0; /* NPCI Blue */
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%; /* Make it full width */
+  text-overflow: ellipsis; /* Handle overflow */
+  overflow: hidden;
+}
+
+.file-upload-label:hover {
+  background-color: #0056b3; /* Lighter shade on hover */
+  transform: scale(1.05); /* Slightly enlarge the button */
+}
+
+.preview-image {
+  display: block;
+  margin-top: 10px;
+  max-width: 100%; /* Responsive image */
+  max-height: 200px; /* Limit height */
+  border-radius: 5px; /* Rounded corners */
+  object-fit: cover; /* Maintain aspect ratio */
+}

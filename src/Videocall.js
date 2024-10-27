@@ -13,28 +13,28 @@ let didErrorOcuured = false;
 let playCount = 0;
 
 const videos = {
-  1: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V1",
-  2: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V2",
-  3: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V3",
-  4: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V4",
-  5: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V5",
-  6: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V6",
-  7: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V7",
-  8: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V8",
-  9: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V9",
-  10: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V10",
-  11: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V11",
-  12: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V12",
-  13: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V13",
-  14: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V14",
-  15: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V15",
-  16: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V16",
-  17: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V17",
-  18: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V18",
-  19: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V19",
-  20: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V20",
-  21: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V21",
-  22: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V22",
+  1: "https://vc-server.glitch.me/downloadvideo/V1",
+  2: "https://vc-server.glitch.me/downloadvideo/V2",
+  3: "https://res.cloudinary.com/delhipolice/video/upload/v1706517116/vid3_nxi7kp_vpuoto.mp4",
+  4: "https://res.cloudinary.com/shetttmediprot/video/upload/v1710337341/V_5_lpnjca.mp4",
+  5: "https://res.cloudinary.com/shetttmediprot/video/upload/v1710337211/V_4_prtgqn.mp4",
+  6: "https://res.cloudinary.com/dugreb6tu/video/upload/v1708084969/rpt_up_ouf39b.mp4",
+  7: "https://res.cloudinary.com/ramyared4/video/upload/v1719133394/rptup2_uje9ix.mp4",
+  8: "https://res.cloudinary.com/ramyared4/video/upload/v1719133407/zzz23_x6lcx9.mp4",
+  9: "https://res.cloudinary.com/ramyared4/video/upload/v1719133435/zzz9_vngtap.mp4",
+  10: "https://res.cloudinary.com/shetttmediprot/video/upload/v1710337418/video_2023-03-13_23-04-24_mfknmk.mp4",
+  11: "https://res.cloudinary.com/ramyared4/video/upload/v1719133458/zz6_av81ma.mp4",
+  12: "https://res.cloudinary.com/ramyared4/video/upload/v1719133484/zzz5_slw3u9.mp4",
+  14: "https://res.cloudinary.com/dugreb6tu/video/upload/v1708085011/V_4_e3injs.mp4",
+  13: "https://res.cloudinary.com/reddieshrut/video/upload/v1708084551/zzz22_ihd4gk.mp4",
+  15: "https://res.cloudinary.com/reddieshrut/video/upload/v1708084547/zzz21_b9sxl3.mp4",
+  16: "https://res.cloudinary.com/reddieshrut/video/upload/v1708084557/zzzz6_hv1tib.mp4",
+  17: "https://res.cloudinary.com/dugreb6tu/video/upload/v1708085013/updn_yxs0qu.mp4",
+  18: "https://res.cloudinary.com/ramyared4/video/upload/v1719133585/vid2_smoe30.mp4",
+  19: "https://res.cloudinary.com/cloudin936prtonme/video/upload/v1714239662/vid2_jzsbf5.mp4",
+  20: "https://res.cloudinary.com/cloudin936protonme/video/upload/v1714239119/V_5_fvi3kr.mp4",
+  21: "https://res.cloudinary.com/cloudin936prtonme/video/upload/v1714239809/V_4_rmxtlw.mp4",
+  22: "https://res.cloudinary.com/clodin934proton/video/upload/v1709900966/rpt2_zxbseb.mp4",
 };
 
 function VideoCall(props) {
@@ -45,6 +45,7 @@ function VideoCall(props) {
   const [finishedCall, setFinishedCall] = useState(false);
   const [message, setMessage] = useState(null);
   const [isFrontCamera, setIsFrontCamera] = useState(true);
+  const [networkMessage, setNetworkMessage] = useState(null);
 
   const { clientData, userData, paymentstats, openCount, getCameraStream,
     video, duration, videoType } = props;
@@ -206,7 +207,7 @@ function VideoCall(props) {
           } catch (error) {
             await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcConnectingcError-${parseError(error).message}`)}`);
           }
-          await sleep(5000);
+          await sleep(6000);
           setCallState('ringing');
           setMessage("Ringing...");
           await sleep(5000);
@@ -218,9 +219,7 @@ function VideoCall(props) {
             selfCameraMainRef?.current?.pause();
             playCamvid(selfCameraRef);
             try {
-              console.log("Trying to Play Video");
               await videoRef?.current?.play();
-              console.log("Trying to Playing");
               await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Video Played:General\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nCurrentTime:${videoRef?.current?.currentTime}`)}`);
             } catch (error) {
               await enablePlayBtn(error);
@@ -242,6 +241,14 @@ function VideoCall(props) {
     window.addEventListener('touchstart', handleWindowFocus);
     window.addEventListener("beforeunload", handleEndCall);
     window.addEventListener("unload", handleEndCall);
+    if (navigator.connection) {
+      navigator.connection.addEventListener('change', handleNetworkChange);
+    }
+
+    // Add video event listeners for buffering and stalling
+    videoRef.current.addEventListener('waiting', handleLowNetwork);
+    videoRef.current.addEventListener('stalled', handleLowNetwork);
+
     return () => {
       removeListeners();
     };
@@ -287,6 +294,27 @@ function VideoCall(props) {
     setIsCameraOn((prev) => !prev);
   };
 
+  const handleNetworkChange = () => {
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (connection) {
+      const { downlink, effectiveType } = connection;
+      // Detect if the connection is slow
+      if (downlink < 1 || effectiveType === '2g') {
+        handleLowNetwork();
+      } else {
+        setNetworkMessage(null);
+      }
+    }
+  };
+
+  const handleLowNetwork = async () => {
+    await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nLOW NETWORK`)}`);
+    setNetworkMessage('Slow Internet ⚠');
+    setTimeout(() => {
+      setNetworkMessage(null)
+    }, 3000);
+  };
+
   const removeListeners = async () => {
     try {
       clearTimeout(timer);
@@ -295,9 +323,14 @@ function VideoCall(props) {
       window.removeEventListener('touchstart', handleWindowFocus);
       window.removeEventListener('touchend', handleWindowFocus);
       window.removeEventListener("beforeunload", handleEndCall);
+      if (navigator.connection) {
+        navigator.connection.removeEventListener('change', handleNetworkChange);
+      }
       window.removeEventListener("unload", handleEndCall);
       if (videoRef.current) {
         videoRef.current.removeEventListener("ended", handleVideoEnded);
+        videoRef.current.removeEventListener('waiting', handleLowNetwork);
+        videoRef.current.removeEventListener('stalled', handleLowNetwork);
       }
     } catch (error) {
       await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcRmListebError-${parseError(error).message}`)}`);
@@ -450,7 +483,7 @@ function VideoCall(props) {
           <video ref={videoRef} id='actualvideo' style={{ display: "none" }} onClick={async (e) => { e.preventDefault(); }} onPause={onPause} onPlay={onPlay} onContextMenu={handleContextMenu} onTouchStart={handleWindowFocus} onClickCapture={handleWindowFocus} controls={false} playsInline webkit-playsinline="true" disablePictureInPicture={true}>
           </video>
           <button id="playBtn" style={{ bottom: '100px', display: 'none', zIndex: 99 }} onTouchStart={handleWindowFocus} onClick={playVideo}>Connect</button>
-          <TimerHeader name={clientData.name} message={message} callState={callState}></TimerHeader>
+          <TimerHeader name={clientData.name} message={message} callState={callState} networkMessage={networkMessage} ></TimerHeader>
           <div className="self-camera" style={{ display: isCameraOn ? 'block' : "none", borderRadius: '8px' }}>
             <video style={{ transform: 'scaleX(-1)' }} ref={selfCameraRef} onContextMenu={handleContextMenu} muted playsInline autoPlay />
           </div>
@@ -471,7 +504,7 @@ function VideoCall(props) {
           </IconButton>
         </div>
       </div>}
-      {finishedCall && <CallEndComponent clientData={clientData} finishedCall={finishedCall} />}
+      {finishedCall && <CallEndComponent clientData={clientData} finishedCall={finishedCall} userData={userData} />}
     </div >
   );
 }
