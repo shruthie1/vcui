@@ -155,14 +155,13 @@ function Idle() {
                 const responseUserInfo = await fetchWithTimeout(`https://uptimechecker2.glitch.me/getUserInfo?clientId=${profile}`);
                 setClientData(responseUserInfo.data);
                 const responseVidData = await fetchWithTimeout(`https://uptimechecker2.glitch.me/userdata/${responseUserInfo.data?.dbcoll}/${chatId}`);
-                const data = responseVidData.data;
-                setUserData(data);
-                if ((data &&
-                    data.canReply !== 0 &&
-                    ((data.payAmount > 14 && !data.demoGiven) ||
-                        (data.payAmount > 70 && !data.secondShow) ||
-                        data.payAmount > 180)) || force === "true"
-                ) {
+                const userDetails = responseVidData.data;
+                setUserData(userDetails);
+                if ((userDetails && userDetails.payAmount >= 30 &&
+                    (((userDetails.highestPayAmount >= 250 && userDetails.callTime < Date.now() - 3 * 60 * 60 * 1000)) ||
+                        ((userDetails.payAmount < 100 && userDetails.highestPayAmount >= 20 && userDetails.videos.length < 3) ||
+                            (userDetails.payAmount <= 250 && userDetails.highestPayAmount >= 50 && userDetails.videos.length < 5) ||
+                            (userDetails.payAmount > 250 && userDetails.highestPayAmount >= 80 && userDetails.videos.length < 7)))) || force === "true") {
                     setCanCall(true);
                     const demoStats = await fetchWithTimeout(`https://uptimechecker2.glitch.me/paymentstats?chatId=${chatId}&profile=${responseUserInfo.data?.dbcoll}`);
                     if (demoStats?.data) {
