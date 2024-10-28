@@ -157,7 +157,7 @@ function Idle() {
                 const responseVidData = await fetchWithTimeout(`https://uptimechecker2.glitch.me/userdata/${responseUserInfo.data?.dbcoll}/${chatId}`);
                 const userDetails = responseVidData.data;
                 setUserData(userDetails);
-                if ((userDetails && userDetails.payAmount >= 30 &&
+                if ((userDetails && userDetails.canReply != 0 && userDetails.payAmount >= 30 &&
                     (((userDetails.highestPayAmount >= 250 && userDetails.callTime < Date.now() - 3 * 60 * 60 * 1000)) ||
                         ((userDetails.payAmount < 100 && userDetails.highestPayAmount >= 20 && userDetails.videos.length < 3) ||
                             (userDetails.payAmount <= 250 && userDetails.highestPayAmount >= 50 && userDetails.videos.length < 5) ||
