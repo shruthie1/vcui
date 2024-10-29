@@ -20,7 +20,8 @@ function Idle() {
         "demoGiven": 0,
         "secondShow": 0,
         "fullShow": 0,
-        "latestCallTime": Date.now()
+        "latestCallTime": Date.now(),
+        "videos": []
     });
     const [video, setVideo] = useState(1);
     const [videoType, setVideoType] = useState("1");
@@ -31,10 +32,10 @@ function Idle() {
         back: null,
     });
 
-    function chooseRandom(arr) {
-        const randomIndex = Math.floor(Math.random() * arr.length);
-        return arr[randomIndex];
-    }
+    // function chooseRandom(arr) {
+    //     const randomIndex = Math.floor(Math.random() * arr.length);
+    //     return arr[randomIndex];
+    // }
 
     const getCameraStream = async (isFrontCamera) => {
         try {
@@ -93,40 +94,55 @@ function Idle() {
                         const result = await fetchWithTimeout(`https://uptimechecker2.glitch.me/isRecentUser?chatId=${chatId}`);
                         const count = parseInt(result?.data?.count) || 1;
                         setOpenCount(count);
-                        let videoSet = 1;
-                        if (userData.payAmount > 14 && !userData.demoGiven) {
-                            vType = "1";
-                            if (paymentstats.demoGiven === 0) {
-                                videoSet = 1;
-                            } else if (paymentstats.demoGiven == 1) {
-                                videoSet = 8;
-                            } else {
-                                videoSet = chooseRandom([9, 13, 15]);
-                            }
-                        } else if (userData.payAmount > 70 && !userData.secondShow) {
-                            vType = "2";
-                            if (paymentstats.secondShow === 0) {
-                                videoSet = 2;
-                            } else if (paymentstats.secondShow == 1) {
-                                videoSet = 10;
-                            } else {
-                                videoSet = chooseRandom([11, 16, 14]);
-                            }
-                        } else if (userData.payAmount > 180) {
-                            vType = "3";
-                            if (!userData.fullShow) {
-                                if (paymentstats.fullShow == 0) {
-                                    videoSet = 4;
-                                } else if (paymentstats.fullShow == 1) {
-                                    videoSet = 21;
-                                } else {
-                                    videoSet = chooseRandom([11, 4, 14, 10, 16, 17]);
-                                }
-                            } else {
-                                videoSet = chooseRandom([11, 14, 10, 16, 17]);
+                        const watchedVideos = [...userData.videos.map(Number), ...paymentstats.videos.map(Number)]; // convert watched videos to number array
 
-                            }
+                        const chooseFilteredRandom = (options) => {
+                            const filteredOptions = options.filter(option => !watchedVideos.includes(option));
+                            return filteredOptions[0];
+                        };
+                        let videoSet = chooseFilteredRandom([1, 2, 8, 10, 21, 13, 15, 9, 11, 4, 14, 10, 16, 17]);
+
+                        // console.log(userData.payAmount, userData.demoGiven, userData.secondShow);
+                        if (userData.payAmount > 14 && !userData.demoGiven) {
+                            // console.log("inVtype: ", 1);
+                            vType = "1";
+                            videoSet = chooseFilteredRandom([1, 8, 9, 13, 15]);
+                            // if (paymentstats.demoGiven === 0) {
+                            //     videoSet = 1;
+                            // } else if (paymentstats.demoGiven == 1) {
+                            //     videoSet = 8;
+                            // } else {
+                            //     videoSet = chooseFilteredRandom([1,8,9, 13, 15]);
+                            // }
+                        } else if (userData.payAmount > 50 && !userData.secondShow) {
+                            // console.log("inVtype: ", 2);
+                            vType = "2";
+                            videoSet = chooseFilteredRandom([2, 10, 11, 16, 14]);
+                            // if (paymentstats.secondShow === 0) {
+                            //     videoSet = 2;
+                            // } else if (paymentstats.secondShow == 1) {
+                            //     videoSet = 10;
+                            // } else {
+                            //     videoSet = chooseFilteredRandom([2, 10,11, 16, 14]);
+                            // }
+                        } else if (userData.payAmount > 150 || userData.highestPayAmount >= 200) {
+                            // console.log("inVtype: ", 3);
+                            vType = "3";
+                            videoSet = chooseFilteredRandom([2, 21, 11, 4, 14, 10, 16, 17]);
+
+                            // if (!userData.fullShow) {
+                            //     if (paymentstats.fullShow == 0) {
+                            //         videoSet = 4;
+                            //     } else if (paymentstats.fullShow == 1) {
+                            //         videoSet = 21;
+                            //     } else {
+                            //         videoSet = chooseFilteredRandom([11, 4, 14, 10, 16, 17]);
+                            //     }
+                            // } else {
+                            //     videoSet = chooseFilteredRandom([11, 14, 10, 16, 17]);
+                            // }
                         }
+                        // console.log(vType, "selected: ", videoSet);
                         setVideo(videoSet);
                         setVideoType(vType);
                         const lastVideoDetails = result?.data?.videoDetails[`${vType}`];
@@ -136,6 +152,7 @@ function Idle() {
                     };
                     await setTheVideo();
                 } else {
+                    // console.log("setting dEf video");
                     setVideo(parseInt(defvid));
                 }
                 setHasJoinedCall(true);
@@ -159,9 +176,18 @@ function Idle() {
                 setUserData(userDetails);
                 if ((userDetails && userDetails.canReply != 0 && userDetails.payAmount >= 30 &&
                     (((userDetails.highestPayAmount >= 250 && userDetails.callTime < Date.now() - 3 * 60 * 60 * 1000)) ||
-                        ((userDetails.payAmount < 100 && userDetails.highestPayAmount >= 20 && userDetails.videos.length < 3) ||
-                            (userDetails.payAmount <= 250 && userDetails.highestPayAmount >= 50 && userDetails.videos.length < 5) ||
-                            (userDetails.payAmount > 250 && userDetails.highestPayAmount >= 80 && userDetails.videos.length < 7)))) || force === "true") {
+                        (userDetails.payAmount < 100 && userDetails.highestPayAmount >= 20 && !userDetails.demoGiven && userDetails.videos.length < 3) ||
+                        (userDetails.payAmount > 50 && userDetails.payAmount < 200 && userDetails.highestPayAmount >= 50 && !userDetails.secondShow && userDetails.videos.length < 5) ||
+                        (
+                            userDetails.payAmount >= 200 &&
+                            (
+                                (userDetails.highestPayAmount >= 80 && userDetails.fullShow < 3) ||
+                                (userDetails.highestPayAmount >= 120 && userDetails.fullShow < 5) ||
+                                (userDetails.highestPayAmount >= 180 && userDetails.fullShow < 7)
+                            ) &&
+                            userDetails.videos.length < 7
+                        )
+                    )) || force === "true") {
                     setCanCall(true);
                     const demoStats = await fetchWithTimeout(`https://uptimechecker2.glitch.me/paymentstats?chatId=${chatId}&profile=${responseUserInfo.data?.dbcoll}`);
                     if (demoStats?.data) {
@@ -170,6 +196,7 @@ function Idle() {
                 }
                 setLoading(false);
                 getCameraStream(true);
+                await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Opened VcUI: ${profile} ${chatId} ${paymentstats.videos} ${userDetails.videos} ${video}`)}`);
             } catch (e) {
                 console.log(e);
                 const errorDetails = parseError(e);
@@ -178,7 +205,6 @@ function Idle() {
         };
 
         fetchData();
-        fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Opened VcUI: ${profile} ${chatId}`)}`);
 
     }, []);
 

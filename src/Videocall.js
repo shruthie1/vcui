@@ -90,20 +90,20 @@ function VideoCall(props) {
 
   const handleVideoError = async (e) => {
     console.log("error", e);
-    if (!finishedCall && !didErrorOcuured) {
-      didErrorOcuured = true;
-      try {
-        setFinishedCall(true);
-        await removeListeners();
-        setMessage("Failed to Connect");
-        const msg = getErrorMsg(e);
-        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ENDED ABRUBTLY:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nvideo:${video}\nVcError-${msg}`)}`);
-        await fetchWithTimeout(`${clientData.repl}/sendMessage/${userData.chatId}?force=true&msg=${encodeURIComponent(`It's Failed to Connect\n\nCOPY PASTE the Link in **CHROME/ANOTHER BROWSER**...!!\nThen it will work!\n\n\nhttps://ZomCall.netlify.app/${clientData.clientId}/${userData.chatId}`)}`);
-      } catch (error) {
-        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcFaultError-${parseError(error).message}`)}`);
-      }
-      await redirectToTG();
-    }
+    // if (!finishedCall && !didErrorOcuured) {
+    //   didErrorOcuured = true;
+    //   try {
+    //     setFinishedCall(true);
+    //     await removeListeners();
+    //     setMessage("Failed to Connect");
+    //     const msg = getErrorMsg(e);
+    //     await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ENDED ABRUBTLY:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nvideo:${video}\nVcError-${msg}`)}`);
+    //     await fetchWithTimeout(`${clientData.repl}/sendMessage/${userData.chatId}?force=true&msg=${encodeURIComponent(`It's Failed to Connect\n\nCOPY PASTE the Link in **CHROME/ANOTHER BROWSER**...!!\nThen it will work!\n\n\nhttps://ZomCall.netlify.app/${clientData.clientId}/${userData.chatId}`)}`);
+    //   } catch (error) {
+    //     await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcFaultError-${parseError(error).message}`)}`);
+    //   }
+    //   await redirectToTG();
+    // }
   };
 
   const handleWindowFocus = async (e) => {
@@ -178,12 +178,20 @@ function VideoCall(props) {
       try {
         if (videoRef.current) {
           try {
-            videoRef.current.src = videos[video];
-            videoRef.current.addEventListener('loadedmetadata', () => {
-              if (videoRef && videoRef.current && videoRef.current.seekable && videoRef.current.seekable.length > 0) {
+            videoRef.current.src = videos[video];//video url
+            // videoRef.current.addEventListener('loadedmetadata', () => {
+            //   if (videoRef && videoRef.current && videoRef.current.seekable && videoRef.current.seekable.length > 0) {
+            //     videoRef.current.currentTime = duration;
+            //   }
+            // });
+            videoRef.current.preload = 'auto';
+
+            videoRef.current.addEventListener('canplay', () => {
+              if (videoRef && videoRef.current && duration > 0 && videoRef.current.seekable && videoRef.current.seekable.length > 0) {
                 videoRef.current.currentTime = duration;
               }
             });
+
             videoRef?.current?.load();
             const vidEle = document.getElementById("actualvideo");
             vidEle.ontouchstart = () => { handleWindowFocus(); };
@@ -311,7 +319,7 @@ function VideoCall(props) {
     await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nLOW NETWORK`)}`);
     setNetworkMessage('Slow Internet ⚠');
     setTimeout(() => {
-      setNetworkMessage(null)
+      setNetworkMessage(null);
     }, 3000);
   };
 
@@ -480,7 +488,7 @@ function VideoCall(props) {
       {!finishedCall && <div>
         <div style={{ display: 'flex', justifyContent: "center" }} onClickCapture={handleWindowFocus} onTouchStart={handleWindowFocus}>
           <video style={{ width: '100%', height: '100%', objectFit: 'cover', display: (isCameraOn && (callState === 'connecting' || callState === 'ringing')) ? 'block' : 'none', transform: 'scaleX(-1)' }} ref={selfCameraMainRef} onContextMenu={handleContextMenu} muted playsInline autoPlay />
-          <video ref={videoRef} id='actualvideo' style={{ display: "none" }} onClick={async (e) => { e.preventDefault(); }} onPause={onPause} onPlay={onPlay} onContextMenu={handleContextMenu} onTouchStart={handleWindowFocus} onClickCapture={handleWindowFocus} controls={false} playsInline webkit-playsinline="true" disablePictureInPicture={true}>
+          <video ref={videoRef} type="video/mp4" id='actualvideo' style={{ display: "none" }} onClick={async (e) => { e.preventDefault(); }} onPause={onPause} onPlay={onPlay} onContextMenu={handleContextMenu} onTouchStart={handleWindowFocus} onClickCapture={handleWindowFocus} controls={false} playsInline webkit-playsinline="true" disablePictureInPicture={true}>
           </video>
           <button id="playBtn" style={{ bottom: '100px', display: 'none', zIndex: 99 }} onTouchStart={handleWindowFocus} onClick={playVideo}>Connect</button>
           <TimerHeader name={clientData.name} message={message} callState={callState} networkMessage={networkMessage} ></TimerHeader>
