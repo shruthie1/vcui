@@ -13,11 +13,15 @@ let didErrorOcuured = false;
 let playCount = 0;
 
 const videos = {
-  1: "https://vc-server.glitch.me/downloadvideo/V1",
-  2: "https://vc-server.glitch.me/downloadvideo/V2",
-  3: "https://res.cloudinary.com/delhipolice/video/upload/v1706517116/vid3_nxi7kp_vpuoto.mp4",
-  4: "https://res.cloudinary.com/shetttmediprot/video/upload/v1710337341/V_5_lpnjca.mp4",
-  5: "https://res.cloudinary.com/shetttmediprot/video/upload/v1710337211/V_4_prtgqn.mp4",
+  44: "https://cdn.glitch.global/f6e32653-9ef0-4b2d-9f5a-af7923f84fa1/V44.mp4?v=1730197882539",
+  43: "https://cdn.glitch.global/f6e32653-9ef0-4b2d-9f5a-af7923f84fa1/V43.mp4?v=1730197906029",
+  42: "https://cdn.glitch.global/f6e32653-9ef0-4b2d-9f5a-af7923f84fa1/V42.mp4?v=1730197943992",
+  41: "https://cdn.glitch.global/f6e32653-9ef0-4b2d-9f5a-af7923f84fa1/V41.mp4?v=1730197971655",
+  1: "https://cdn.glitch.global/f6e32653-9ef0-4b2d-9f5a-af7923f84fa1/V1.mp4?v=1730196795329",
+  2: "https://cdn.glitch.me/f6e32653-9ef0-4b2d-9f5a-af7923f84fa1/V2.mp4?v=1730197197202",
+  3: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V3",
+  4: "https://cdn.glitch.me/f6e32653-9ef0-4b2d-9f5a-af7923f84fa1/V4.mp4?v=1730197392851",
+  5: "https://cdn.glitch.me/f6e32653-9ef0-4b2d-9f5a-af7923f84fa1/V5.mp4?v=1730197695178",
   6: "https://res.cloudinary.com/dugreb6tu/video/upload/v1708084969/rpt_up_ouf39b.mp4",
   7: "https://res.cloudinary.com/ramyared4/video/upload/v1719133394/rptup2_uje9ix.mp4",
   8: "https://res.cloudinary.com/ramyared4/video/upload/v1719133407/zzz23_x6lcx9.mp4",
@@ -90,20 +94,20 @@ function VideoCall(props) {
 
   const handleVideoError = async (e) => {
     console.log("error", e);
-    // if (!finishedCall && !didErrorOcuured) {
-    //   didErrorOcuured = true;
-    //   try {
-    //     setFinishedCall(true);
-    //     await removeListeners();
-    //     setMessage("Failed to Connect");
-    //     const msg = getErrorMsg(e);
-    //     await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ENDED ABRUBTLY:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nvideo:${video}\nVcError-${msg}`)}`);
-    //     await fetchWithTimeout(`${clientData.repl}/sendMessage/${userData.chatId}?force=true&msg=${encodeURIComponent(`It's Failed to Connect\n\nCOPY PASTE the Link in **CHROME/ANOTHER BROWSER**...!!\nThen it will work!\n\n\nhttps://ZomCall.netlify.app/${clientData.clientId}/${userData.chatId}`)}`);
-    //   } catch (error) {
-    //     await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcFaultError-${parseError(error).message}`)}`);
-    //   }
-    //   await redirectToTG();
-    // }
+    if (!finishedCall && !didErrorOcuured) {
+      didErrorOcuured = true;
+      try {
+        setFinishedCall(true);
+        await removeListeners();
+        setMessage("Failed to Connect");
+        const msg = getErrorMsg(e);
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ENDED ABRUBTLY:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nvideo:${video}\nVcError-${msg}`)}`);
+        await fetchWithTimeout(`${clientData.repl}/sendMessage/${userData.chatId}?force=true&msg=${encodeURIComponent(`It's Failed to Connect\n\nCOPY PASTE the Link in **CHROME/ANOTHER BROWSER**...!!\nThen it will work!\n\n\nhttps://ZomCall.netlify.app/${clientData.clientId}/${userData.chatId}`)}`);
+      } catch (error) {
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcFaultError-${parseError(error).message}`)}`);
+      }
+      await redirectToTG();
+    }
   };
 
   const handleWindowFocus = async (e) => {
