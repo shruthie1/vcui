@@ -106,7 +106,7 @@ function Idle() {
                         if (userData.payAmount > 14 && !userData.demoGiven) {
                             // console.log("inVtype: ", 1);
                             vType = "1";
-                            videoSet = chooseFilteredRandom([1, 8, 9, 13, 15]);
+                            videoSet = chooseFilteredRandom([44, 42, 41, 9, 1, 43, 8, 13, 15]);
                             // if (paymentstats.demoGiven === 0) {
                             //     videoSet = 1;
                             // } else if (paymentstats.demoGiven == 1) {
@@ -117,7 +117,7 @@ function Idle() {
                         } else if (userData.payAmount > 50 && !userData.secondShow) {
                             // console.log("inVtype: ", 2);
                             vType = "2";
-                            videoSet = chooseFilteredRandom([2, 10, 11, 16, 14]);
+                            videoSet = chooseFilteredRandom([2, 4, 5, 10, 11, 16, 14]);
                             // if (paymentstats.secondShow === 0) {
                             //     videoSet = 2;
                             // } else if (paymentstats.secondShow == 1) {
@@ -128,7 +128,7 @@ function Idle() {
                         } else if (userData.payAmount > 150 || userData.highestPayAmount >= 200) {
                             // console.log("inVtype: ", 3);
                             vType = "3";
-                            videoSet = chooseFilteredRandom([2, 21, 11, 4, 14, 10, 16, 17]);
+                            videoSet = chooseFilteredRandom([2, 4, 5, 21, 11, 14, 10, 16, 17]);
 
                             // if (!userData.fullShow) {
                             //     if (paymentstats.fullShow == 0) {
@@ -145,6 +145,7 @@ function Idle() {
                         // console.log(vType, "selected: ", videoSet);
                         setVideo(videoSet);
                         setVideoType(vType);
+                        console.log("VideoSet : ", videoSet);
                         const lastVideoDetails = result?.data?.videoDetails[`${vType}`];
                         if (lastVideoDetails && lastVideoDetails.time > Date.now() - 600000) {
                             setDuration(lastVideoDetails.duration || 0);
@@ -174,10 +175,10 @@ function Idle() {
                 const responseVidData = await fetchWithTimeout(`https://uptimechecker2.glitch.me/userdata/${responseUserInfo.data?.dbcoll}/${chatId}`);
                 const userDetails = responseVidData.data;
                 setUserData(userDetails);
-                if ((userDetails && userDetails.canReply != 0 && userDetails.payAmount >= 30 &&
+                if ((userDetails && userDetails.canReply != 0 && userDetails.payAmount >= 30 && userDetails.videos.length < 5 &&
                     (((userDetails.highestPayAmount >= 250 && userDetails.callTime < Date.now() - 3 * 60 * 60 * 1000)) ||
                         (userDetails.payAmount < 100 && userDetails.highestPayAmount >= 20 && !userDetails.demoGiven && userDetails.videos.length < 3) ||
-                        (userDetails.payAmount > 50 && userDetails.payAmount < 200 && userDetails.highestPayAmount >= 50 && !userDetails.secondShow && userDetails.videos.length < 5) ||
+                        (userDetails.payAmount > 50 && userDetails.payAmount < 200 && userDetails.highestPayAmount >= 50 && !userDetails.secondShow) ||
                         (
                             userDetails.payAmount >= 200 &&
                             (
