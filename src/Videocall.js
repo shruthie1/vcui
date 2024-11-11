@@ -41,8 +41,10 @@ const videos = {
   18: "https://res.cloudinary.com/ramyared4/video/upload/v1719133585/vid2_smoe30.mp4",
   19: "https://res.cloudinary.com/cloudin936prtonme/video/upload/v1714239662/vid2_jzsbf5.mp4",
   20: "https://res.cloudinary.com/cloudin936protonme/video/upload/v1714239119/V_5_fvi3kr.mp4",
-  21: "https://res.cloudinary.com/cloudin936prtonme/video/upload/v1714239809/V_4_rmxtlw.mp4",
+  21: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.global/e33b2b18-cb91-448e-9f98-1df5436cdebb/V21.mp4?v=1731156965455",
   22: "https://res.cloudinary.com/clodin934proton/video/upload/v1709900966/rpt2_zxbseb.mp4",
+  23: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.global/e33b2b18-cb91-448e-9f98-1df5436cdebb/V23.mp4?v=1731156151636",
+  24: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.global/e33b2b18-cb91-448e-9f98-1df5436cdebb/V24.mp4?v=1731156216454",
 };
 
 function VideoCall(props) {
@@ -69,10 +71,10 @@ function VideoCall(props) {
     // window.addEventListener('popstate', handleBackButton);
     // window.addEventListener('beforeunload', handleBackButton);
     setTimeout(() => {
-      if (!didPlayVideo) {
+      if (didStartVideo && !didPlayVideo) {
         enablePlayBtn("Not started playing");
       }
-    }, 10000);
+    }, 12000);
   }, []);
 
   const handleVideoEnded = async () => {
@@ -196,37 +198,12 @@ function VideoCall(props) {
         if (videoRef.current) {
           try {
             // videoRef.current.src =;
-            videoRef.current.addEventListener('loadedmetadata', () => {
-              if (videoRef && videoRef.current && duration > 0 && videoRef.current.seekable && videoRef.current.seekable.length > 0) {
-                videoRef.current.currentTime = duration;
-                latestDuration = duration;
-              }
-            });
-            videoRef.current.addEventListener('progress', () => {
-              if (videoRef.current.buffered.length > 0) {
-                const bufferedEnd = videoRef.current.buffered.end(videoRef.current.buffered.length - 1);
-                const duration = videoRef.current.duration;
-                if (didStartVideo) {
-                  videoRef?.current?.play();
-                }
-                console.log(`Buffered: ${bufferedEnd} / ${duration}`);
-                if (bufferedEnd >= duration - 1) {
-                  console.log('Video fully buffered');
-                }
-              }
-            });
+
             videoRef?.current?.load();
             const vidEle = document.getElementById("actualvideo");
             vidEle.ontouchstart = () => { handleWindowFocus(); };
             vidEle.onclick = () => { handleWindowFocus(); };
-            videoRef.current.addEventListener("playing", () => { 
-              setNetworkMessage(null);
-             });
-            videoRef.current.addEventListener("timeupdate", () => { latestDuration = videoRef?.current?.currentTime ? videoRef?.current?.currentTime : latestDuration; });
-            videoRef.current.addEventListener("click", handleWindowFocus);
-            videoRef.current.addEventListener("touchstart", handleWindowFocus);
-            videoRef.current.addEventListener("ended", handleVideoEnded);
-            videoRef.current.addEventListener("error", handleVideoError);
+
           } catch (error) {
             console.log(error);
             await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Failed to load:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcError-${parseError(error).message}`)}`);
@@ -277,16 +254,57 @@ function VideoCall(props) {
     window.addEventListener('touchstart', handleWindowFocus);
     window.addEventListener("beforeunload", handleEndCall);
     window.addEventListener("unload", handleEndCall);
-    if (navigator.connection) {
-      navigator.connection.addEventListener('change', handleNetworkChange);
+    if (videoRef.current) {
+      videoRef.current.addEventListener("timeupdate", () => { latestDuration = videoRef?.current?.currentTime ? videoRef?.current?.currentTime : latestDuration; });
+      videoRef.current.addEventListener("click", handleWindowFocus);
+      videoRef.current.addEventListener("touchstart", handleWindowFocus);
+      videoRef.current.addEventListener("ended", handleVideoEnded);
+      videoRef.current.addEventListener("error", handleVideoError);
+      videoRef.current.addEventListener('loadedmetadata', () => {
+        if (videoRef && videoRef.current && duration > 0 && videoRef.current.seekable && videoRef.current.seekable.length > 0) {
+          videoRef.current.currentTime = duration;
+          latestDuration = duration;
+        }
+      });
+      videoRef.current.addEventListener('progress', () => {
+        if (videoRef.current.buffered.length > 0) {
+          const bufferedEnd = videoRef.current.buffered.end(videoRef.current.buffered.length - 1);
+          const duration = videoRef.current.duration;
+          if (didStartVideo) {
+            if (!didPlayVideo || videoRef?.current?.paused) {
+              handleWindowFocus("progress")
+            } else {
+              setNetworkMessage(null);
+            }
+          }
+          console.log(`Buffered: ${bufferedEnd} / ${duration}`);
+          if (bufferedEnd >= duration - 1) {
+            console.log('Video fully buffered');
+          }
+        }
+      });
+      videoRef.current.addEventListener("playing", () => {
+        setNetworkMessage(null);
+      });
+      videoRef.current.addEventListener('waiting', () => { handleLowNetwork("waiting"); });
+      videoRef.current.addEventListener('stalled', () => { handleLowNetwork("stalled"); });
+      if (navigator.connection) {
+        navigator.connection.addEventListener('change', handleNetworkChange);
+      }
     }
-
-    // Add video event listeners for buffering and stalling
-    videoRef.current.addEventListener('waiting', () => { handleLowNetwork("waiting"); });
-    videoRef.current.addEventListener('stalled', () => { handleLowNetwork("stalled"); });
-
+    let tIid;
+    setTimeout(() => {
+      tIid = setInterval(() => {
+        if (!videoRef?.current?.paused) {
+          setNetworkMessage(null);
+        } else {
+          handleLowNetwork('Video Paused');
+        }
+      }, 3000);
+    }, 10000);
     return () => {
       removeListeners();
+      clearInterval(tIid);
     };
   }, []);
 
@@ -532,6 +550,7 @@ function VideoCall(props) {
         videoRef.current.currentTime = latestDuration;
       }
     }
+    didPlayVideo = true;
     await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`VideoPlayed:\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nCurrentTime:${videoRef?.current?.currentTime}\nLastestDuration: ${latestDuration}\nVideoDur:${videoRef?.current?.duration}`)}`);
     setNetworkMessage(null);
   };
