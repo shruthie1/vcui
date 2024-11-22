@@ -21,9 +21,9 @@ const TelegramUI = (props) => {
             <img src={logo} alt="Telegram Logo" style={logoStyle} />
             <h1>{clientData?.name}</h1>
             <button style={{ transform: 'translateX(-50%)', bottom: '120px' }} onClick={joinVideoCall}>Start Video Call</button>
-            <button
+            {userData.count > 2 && <button
                 style={{
-                    backgroundColor: 'red',
+                    backgroundColor: '#ee3838',
                     transform: 'translateX(-50%)', bottom: '60px'
                 }}
                 onClick={async () => {
@@ -33,6 +33,7 @@ const TelegramUI = (props) => {
             >
                 Report Transaction
             </button>
+            }
         </div>
     );
 };

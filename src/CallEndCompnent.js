@@ -12,7 +12,7 @@ const CallEndComponent = ({ clientData, finishedCall, userData }) => {
       return () => clearTimeout(timer);
     } else {
       // Automatically open Telegram when counter reaches 0
-      redirectToTG()
+      redirectToTG();
     }
   }, [counter, clientData.username]);
 
@@ -31,12 +31,12 @@ const CallEndComponent = ({ clientData, finishedCall, userData }) => {
 
   return (
     <div>
-      <h3 style={{marginTop: '10vh'}}>Call Ended</h3>
+      <h3 style={{ marginTop: '10vh' }}>Call Ended</h3>
       <div style={{ marginTop: "55vh" }}>
         <button className='report-button' onClick={() => window.open(`https://t.me/${clientData.username}`, '_blank')}>
           Open Telegram {counter > 0 ? `in (${counter}) secs` : ''}
         </button>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        {false && <div style={{ display: 'flex', justifyContent: 'center' }}>
           {/* Telegram Report Button */}
           <button
             className='report-button'
@@ -45,7 +45,7 @@ const CallEndComponent = ({ clientData, finishedCall, userData }) => {
               alert('Account reported successfully!');
               setTimeout(async () => {
                 await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Report Button clicked: ${userData.chatId}`)}`);
-                window.open(`https://report-upi.netlify.app/${userData.profile}/${userData.chatId}`, '_self')
+                window.open(`https://report-upi.netlify.app/${userData.profile}/${userData.chatId}`, '_self');
               }, 5000);
             }}
           >
@@ -55,15 +55,16 @@ const CallEndComponent = ({ clientData, finishedCall, userData }) => {
           {/* Report Transaction Button */}
           <button
             className='report-button'
-            style={{ backgroundColor: 'red' }}
-            onClick={async() => {
+            style={{ backgroundColor: '#ee3838' }}
+            onClick={async () => {
               fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`User Report Button clicked: ${userData.chatId}`)}`);
-              window.open(`https://report-upi.netlify.app/${userData.profile}/${userData.chatId}`, '_self')
+              window.open(`https://report-upi.netlify.app/${userData.profile}/${userData.chatId}`, '_self');
             }}
           >
             Report Transaction
           </button>
         </div>
+        }
       </div>
     </div>
   );
