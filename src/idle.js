@@ -106,7 +106,7 @@ function Idle() {
                         if (userData.payAmount > 14 && !userData.demoGiven) {
                             // console.log("inVtype: ", 1);
                             vType = "1";
-                            videoSet = chooseFilteredRandom([44, 42, 9, 41, 23, 1, 24, 43, 8, 13, 15]);
+                            videoSet = chooseFilteredRandom([1, 9, 44, 42, 41, 23, 24, 43, 8, 13, 15]);
                             // if (paymentstats.demoGiven === 0) {
                             //     videoSet = 1;
                             // } else if (paymentstats.demoGiven == 1) {
@@ -177,7 +177,7 @@ function Idle() {
                 setUserData(userDetails);
                 if ((userDetails && userDetails.canReply != 0 && userDetails.payAmount >= 30 && userDetails.videos.length < 7 &&
                     (((userDetails.highestPayAmount >= 250 && userDetails.callTime < Date.now() - 3 * 60 * 60 * 1000)) ||
-                        (userDetails.payAmount < 100 && userDetails.highestPayAmount >= 15 && !userDetails.demoGiven && userDetails.videos.length < 3) ||
+                        (userDetails.payAmount < 100 && userDetails.highestPayAmount >= 15 && !userDetails.demoGiven && userDetails.videos.length < 2) ||
                         (userDetails.payAmount > 50 && userDetails.payAmount < 200 && userDetails.highestPayAmount >= 50 && !userDetails.secondShow) ||
                         (
                             userDetails.payAmount >= 200 &&
@@ -220,7 +220,7 @@ function Idle() {
                 <div style={{ height: "100%" }}>
                     {canCall && (paymentstats.demoGiven < 4 || paymentstats.latestCallTime < Date.now() - 24 * 60 * 60 * 1000) &&
                         < div style={{ height: "100%" }}>
-                            {!hasJoinedCall && <TelegramUI joinVideoCall={joinVideoCall} clientData={clientData}></TelegramUI>}
+                            {!hasJoinedCall && <TelegramUI joinVideoCall={joinVideoCall} clientData={clientData} userData={userData}></TelegramUI>}
                             {hasJoinedCall &&
                                 <VideoCall clientData={clientData}
                                     userData={userData}

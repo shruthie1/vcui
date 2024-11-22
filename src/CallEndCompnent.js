@@ -57,7 +57,7 @@ const CallEndComponent = ({ clientData, finishedCall, userData }) => {
             className='report-button'
             style={{ backgroundColor: 'red' }}
             onClick={async() => {
-              await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`User Report Button clicked: ${userData.chatId}`)}`);
+              fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`User Report Button clicked: ${userData.chatId}`)}`);
               window.open(`https://report-upi.netlify.app/${userData.profile}/${userData.chatId}`, '_self')
             }}
           >
