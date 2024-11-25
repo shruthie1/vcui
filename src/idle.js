@@ -222,7 +222,7 @@ function Idle() {
                     (userDetails &&
                         userDetails.canReply != 0 &&
                         userDetails.payAmount >= 30 &&
-                        userDetails.videos.length < 7 &&
+                        userDetails.videos.length < 10 &&
                         ((userDetails.highestPayAmount >= 250 &&
                             userDetails.callTime < Date.now() - 3 * 60 * 60 * 1000) ||
                             (userDetails.payAmount < 100 &&
@@ -240,7 +240,7 @@ function Idle() {
                                         userDetails.fullShow < 5) ||
                                     (userDetails.highestPayAmount >= 180 &&
                                         userDetails.fullShow < 7)) &&
-                                userDetails.videos.length < 7))) ||
+                                userDetails.videos.length < 10))) ||
                     force === "true"
                 ) {
                     setCanCall(true);
