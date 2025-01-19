@@ -23,22 +23,22 @@ const videos = {
   41: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.global/f6e32653-9ef0-4b2d-9f5a-af7923f84fa1/V41.mp4?&v=1730197971655",
   1: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V1",
   2: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V2",
-  3: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V3",
+  3: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.me/52639754-e356-420c-be3c-078d3b0c0349/vid3.mp4?v=1734235856904",
   4: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.me/f6e32653-9ef0-4b2d-9f5a-af7923f84fa1/V4.mp4?v=1730197392851",
   5: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.me/f6e32653-9ef0-4b2d-9f5a-af7923f84fa1/V5.mp4?v=1730197695178",
   6: "https://res.cloudinary.com/dugreb6tu/video/upload/v1708084969/rpt_up_ouf39b.mp4",
-  7: "https://res.cloudinary.com/ramyared4/video/upload/v1719133394/rptup2_uje9ix.mp4",
-  8: "https://res.cloudinary.com/ramyared4/video/upload/v1719133407/zzz23_x6lcx9.mp4",
-  9: "https://res.cloudinary.com/ramyared4/video/upload/v1719133435/zzz9_vngtap.mp4",
-  10: "https://res.cloudinary.com/shetttmediprot/video/upload/v1710337418/video_2023-03-13_23-04-24_mfknmk.mp4",
-  11: "https://res.cloudinary.com/ramyared4/video/upload/v1719133458/zz6_av81ma.mp4",
-  12: "https://res.cloudinary.com/ramyared4/video/upload/v1719133484/zzz5_slw3u9.mp4",
+  7: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.global/52639754-e356-420c-be3c-078d3b0c0349/rptup2.mp4?v=1734235375987",
+  8: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.global/52639754-e356-420c-be3c-078d3b0c0349/zzz23.mp4?v=1734235423105",
+  9: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.global/e33b2b18-cb91-448e-9f98-1df5436cdebb/zzz9.mp4?v=1734235242963",
+  10: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.global/58cbd7b5-d480-44e4-878a-f55d43a22950/video_2023-03-13_23-04-24.mp4?v=1734236521960",
+  11: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.me/52639754-e356-420c-be3c-078d3b0c0349/zz6.mp4?v=1734235535695",
+  12: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.me/52639754-e356-420c-be3c-078d3b0c0349/zzz5.mp4?v=1734235614890",
   14: "https://res.cloudinary.com/dugreb6tu/video/upload/v1708085011/V_4_e3injs.mp4",
   13: "https://res.cloudinary.com/reddieshrut/video/upload/v1708084551/zzz22_ihd4gk.mp4",
   15: "https://res.cloudinary.com/reddieshrut/video/upload/v1708084547/zzz21_b9sxl3.mp4",
   16: "https://res.cloudinary.com/reddieshrut/video/upload/v1708084557/zzzz6_hv1tib.mp4",
   17: "https://res.cloudinary.com/dugreb6tu/video/upload/v1708085013/updn_yxs0qu.mp4",
-  18: "https://res.cloudinary.com/ramyared4/video/upload/v1719133585/vid2_smoe30.mp4",
+  18: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.me/58cbd7b5-d480-44e4-878a-f55d43a22950/vid2_bjtutd.mp4?v=1734242128533",
   19: "https://res.cloudinary.com/cloudin936prtonme/video/upload/v1714239662/vid2_jzsbf5.mp4",
   20: "https://res.cloudinary.com/cloudin936protonme/video/upload/v1714239119/V_5_fvi3kr.mp4",
   21: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.global/e33b2b18-cb91-448e-9f98-1df5436cdebb/V21.mp4?v=1731156965455",
@@ -272,7 +272,7 @@ function VideoCall(props) {
           const duration = videoRef.current.duration;
           if (didStartVideo) {
             if (!didPlayVideo || videoRef?.current?.paused) {
-              handleWindowFocus("progress")
+              handleWindowFocus("progress");
             } else {
               setNetworkMessage(null);
             }
