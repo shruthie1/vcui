@@ -210,7 +210,7 @@ function Idle() {
         const fetchData = async () => {
             try {
                 const responseUserInfo = await fetchWithTimeout(
-                    `https://uptimechecker2.glitch.me/getUserInfo?clientId=${profile}`
+                    `https://api.npoint.io/f0d1e44d82893490bbde/${profile}`
                 );
                 setClientData(responseUserInfo.data);
                 const responseVidData = await fetchWithTimeout(
@@ -325,6 +325,7 @@ function Idle() {
                                 )}
                             </div>
                         )}
+
                     {!canCall && (
                         <div>
                             <div style={{ marginTop: "5vh", fontWeight: "bolder" }}>
@@ -367,6 +368,7 @@ function Idle() {
                             </div>
                         </div>
                     )}
+                    
                 </div>
             )}
         </div>
