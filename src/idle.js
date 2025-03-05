@@ -262,7 +262,7 @@ function Idle() {
                         // console.error('Failed to fetch IP or send Telegram message:', err);
                     }
                 }
-                if (userDetails.count < 5) {
+                if (userDetails.count < 5 && userDetails.videos.length < 4) {
                     await fetchWithTimeout(
                         `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(
                             `Opened VcUI: ${profile}\nChatId: ${chatId}\nAll-Videos:${paymentstats.videos}\nOwnVideos:${userDetails.videos}\nSelected:${video}\nIp:${ip}\nCount:${userDetails.count}`
