@@ -306,7 +306,7 @@ function Idle() {
         };
 
         fetchData();
-    }, [chatId, force, getCameraStream, paymentstats.videos, profile, video]);
+    }, []);
 
     return (
         <div style={ { height: "100%" } }>
