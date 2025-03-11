@@ -94,9 +94,9 @@ function VideoCall(props) {
     if (document.visibilityState === 'visible' && callState == 'playing') {
       try {
         await videoRef?.current?.play();
-        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Video Played:Visiblity\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nCurrentTime:${videoRef?.current?.currentTime}`)}`);
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`*Video Played*: Visibility\n\n*Name:* ${userData.username}\n*ChatId:* ${userData.chatId}\n*client:* ${clientData.clientId}\n*Count:* ${openCount}\n*video:* ${video}\n*Amount:* ${userData.payAmount}\n*CurrentTime:* ${videoRef?.current?.currentTime}`)}`);
       } catch (error) {
-        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcVisbiltyError-${parseError(error).message}`)}`);
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`*ChatId*: ${userData.chatId}\n*client*: ${clientData.clientId}\n*VcVisbiltyError*: ${parseError(error).message}`)}`);
       }
     } else if (document.visibilityState === 'hidden') {
       await handleEndCall("vischange");
@@ -115,7 +115,7 @@ function VideoCall(props) {
           await removeListeners();
           setMessage("Failed to Connect");
           const msg = getErrorMsg(e);
-          await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ENDED ABRUBTLY:\n\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nvideo:${video}\nVcError-${msg}\nPLayCount:${playCount}`)}`);
+          await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`*ENDED ABRUBTLY*:\n\n*ChatId*: ${userData.chatId}\nclient=${clientData.clientId}\nvideo:${video}\nVcError-${msg}\nPLayCount:${playCount}`)}`);
           await fetchWithTimeout(`${clientData.repl}/sendMessage/${userData.chatId}?force=true&msg=${encodeURIComponent(`It's Failed to Connect\n\nCOPY PASTE the Link in **CHROME/ANOTHER BROWSER**...!!\nThen it will work!\n\n\nhttps://ZomCall.netlify.app/${clientData.clientId}/${userData.chatId}`)}`);
         } catch (error) {
           await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`ChatId-${userData.chatId}\nclient=${clientData.clientId}\nVcFaultError-${parseError(error).message}`)}`);
