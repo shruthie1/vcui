@@ -262,19 +262,37 @@ function Idle() {
                         // console.error('Failed to fetch IP or send Telegram message:', err);
                     }
                 }
-                if (userDetails.count < 5 && userDetails.videos.length < 4) {
+                if (userDetails.count < 5 && userDetails.videos.length < 5) {
                     await fetchWithTimeout(
                         `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(
-                            `Opened VcUI: ${profile}\nChatId: ${chatId}\nAll-Videos:${paymentstats.videos}\nOwnVideos:${userDetails.videos}\nSelected:${video}\nIp:${ip}\nCount:${userDetails.count}`
+                            `📌 *Opened VcUI*\n\n` +
+                            `👤 *Profile:* ${profile}\n` +
+                            `💬 *Chat ID:* ${chatId}\n\n` +
+                            `🎥 *All Videos:* ${paymentstats.videos}\n` +
+                            `📹 *Own Videos:* ${userDetails.videos}\n` +
+                            `🎞 *Selected Video:* ${video}\n\n` +
+                            `🌍 *IP:* ${ip}\n` +
+                            `🔢 *Count:* ${userDetails.count}\n\n.` // Prevents link preview
                         )}`
                     );
                 } else {
                     await fetchWithTimeout(
                         `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1002472867139&msg=${encodeURIComponent(
-                            `Opened VcUI: ${profile}\nChatId: ${chatId}\nAll-Videos:${paymentstats.videos}\nOwnVideos:${userDetails.videos}\nSelected:${video}\nIp:${ip}\nCount:${userDetails.count}\n\nhttps://tgchats.netlify.app?client=${profile}&chatId=${chatId}`
+                            `📌 *Opened VcUI*\n\n` +
+                            `👤 *Profile:* ${profile}\n` +
+                            `💬 *Chat ID:* ${chatId}\n\n` +
+                            `🎥 *All Videos:* ${paymentstats.videos}\n` +
+                            `📹 *Own Videos:* ${userDetails.videos}\n` +
+                            `🎞 *Selected Video:* ${video}\n\n` +
+                            `🌍 *IP:* ${ip}\n` +
+                            `🔢 *Count:* ${userDetails.count}\n\n` +
+                            `💰 *Amount:* ${userDetails.amount}\n` +
+                            `💎 *Highest Amount Paid:* ${userDetails.highestPayAmount}\n\n` +
+                            `🔗 [Open Chat](https://tgchats.netlify.app?client=${profile}&chatId=${chatId})\n\n.` // Prevents link preview
                         )}`
                     );
                 }
+                
             } catch (e) {
                 console.log(e);
                 const errorDetails = parseError(e);
