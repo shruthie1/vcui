@@ -42,7 +42,7 @@ export async function fetchWithTimeout(resource, options = {}, sendErr = true, m
             const responseIPv6 = await fetchWithProtocol(resource, 6);
             if (responseIPv6) return responseIPv6;
         } catch (error) {
-            const errorDetails = parseError(error)
+            const errorDetails = parseError(error);
             if (retryCount < maxRetries) {
                 console.log(`Retrying... (${retryCount + 1}/${maxRetries})`);
                 await new Promise(resolve => setTimeout(resolve, 2000)); // 2 seconds delay
@@ -50,9 +50,9 @@ export async function fetchWithTimeout(resource, options = {}, sendErr = true, m
                 console.log(`All ${maxRetries + 1} retries failed for ${resource}`);
                 if (sendErr && error.code !== "ECONNABORTED" && error.code !== "ETIMEDOUT" && !errorDetails.message.toLowerCase().includes('too many requests') && !axios.isCancel(error)) {
                     try {
-                        await axios.get(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`All ${maxRetries + 1} retries failed for ${resource}\n${parseError(error).message}\nCode:${error.code}`)}`)
+                        await axios.get(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`All ${maxRetries + 1} retries failed for ${resource}\n${parseError(error).message}\nCode:${error.code}`)}`);
                     } catch (error) {
-                        console.log(error)
+                        console.log(error);
                     }
                 }
                 return undefined;
@@ -81,4 +81,13 @@ export function parseError(
 
 export function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export function encodeForTelegram(message) {
+    return encodeURIComponent(message)
+        .replace(/\*/g, "%2A")  // Encode `*`
+        .replace(/\[/g, "%5B")  // Encode `[`
+        .replace(/\]/g, "%5D")  // Encode `]`
+        .replace(/\(/g, "%28")  // Encode `(`
+        .replace(/\)/g, "%29"); // Encode `)`
 }
