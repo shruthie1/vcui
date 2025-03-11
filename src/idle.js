@@ -287,7 +287,7 @@ function Idle() {
                             `Selected Video: *${video}*\n` +
                             `IP: *${ip}*\n` +
                             `Count: *${userDetails.count}*\n` +
-                            `Am: *${userDetails.amount}*\n` +
+                            `Am: *${userDetails.payAmount}*\n` +
                             `Highest Amount: *${userDetails.highestPayAmount}*\n` +
                             `[Open Chat](https://tgchats.netlify.app?client=${profile}&chatId=${chatId})` // Prevents link preview
                         )}`
