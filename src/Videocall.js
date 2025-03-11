@@ -94,9 +94,9 @@ function VideoCall(props) {
     if (document.visibilityState === 'visible' && callState == 'playing') {
       try {
         await videoRef?.current?.play();
-        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*Video Played*: Visibility\n\n*Name*: ${userData.username}\n*ChatId*: ${userData.chatId}\n*client*: ${clientData.clientId}\n*Count*: ${openCount}\n*video*: ${video}\n*Amount*: ${userData.payAmount}\n*CurrentTime*: ${videoRef?.current?.currentTime}`)}`);
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`Video Played: *Visibility*\n\nName: *${userData.username}*\nChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nCount: *${openCount}*\nVideo: *${video}*\nAmount: *${userData.payAmount}*\nCurrentTime: *${videoRef?.current?.currentTime}*`)}`);
       } catch (error) {
-        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*ChatId*: ${userData.chatId}\n*client*: ${clientData.clientId}\n*VcVisbiltyError*: ${parseError(error).message}`)}`);
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`ChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nVcVisbiltyError: *${parseError(error).message}*`)}`);
       }
     } else if (document.visibilityState === 'hidden') {
       await handleEndCall("vischange");
@@ -115,10 +115,10 @@ function VideoCall(props) {
           await removeListeners();
           setMessage("Failed to Connect");
           const msg = getErrorMsg(e);
-          await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*ENDED ABRUBTLY*:\n\n*ChatId*: ${userData.chatId}\n*client*: ${clientData.clientId}\n*video*: ${video}\n*VcError*: ${msg}\n*PLayCount*: ${playCount}`)}`);
+          await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`ENDED ABRUBTLY:\n\nChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nVideo: *${video}*\nVcError: *${msg}*\nPLayCount: *${playCount}*`)}`);
           await fetchWithTimeout(`${clientData.repl}/sendMessage/${userData.chatId}?force=true&msg=${encodeForTelegram(`It's Failed to Connect\n\nCOPY PASTE the Link in **CHROME/ANOTHER BROWSER**...!!\nThen it will work!\n\n\nhttps://ZomCall.netlify.app/${clientData.clientId}/${userData.chatId}`)}`);
         } catch (error) {
-          await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*ChatId*: ${userData.chatId}\n*client*: ${clientData.clientId}\n*VcFaultError*: ${parseError(error).message}`)}`);
+          await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`ChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nVcFaultError: *${parseError(error).message}*`)}`);
         }
         await redirectToTG();
       }
@@ -129,12 +129,12 @@ function VideoCall(props) {
     if (callState == 'playing' && (videoRef?.current?.paused)) {
       try {
         await videoRef?.current?.play();
-        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*Video Played*:FocusPlay\n\n*Name*:${userData.username}\n*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*Count*:${openCount}\n*video*:${video}\n*Amount*:${userData.payAmount}\n*CurrentTime*:${videoRef?.current?.currentTime}`)}`);
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`Video Played: FocusPlay\n\nName: *${userData.username}*\nChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nCount: *${openCount}*\nVideo: *${video}*\nAmount: *${userData.payAmount}*\nCurrentTime: *${videoRef?.current?.currentTime}*`)}`);
         reqFullScreen();
       } catch (error) {
         await enablePlayBtn(error);
         const msg = getErrorMsg(e);
-        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*FOCUSErr*:\n\n*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*VcError*:${JSON.stringify(msg)}`)}`);
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`FOCUSErr:\n\nChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nVcError: *${JSON.stringify(msg)}*`)}`);
       }
     }
     await reqFullScreen();
@@ -172,7 +172,7 @@ function VideoCall(props) {
       btnContols.style.display = 'none';
       const playBtn = document.getElementById('playBtn');
       playBtn.style.display = 'block';
-      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`PLAYBTN ENABLED:\n\n*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*VcError*:${parseError(error).message}`)}`);
+      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`PLAYBTN ENABLED:\n\nChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nVcError: *${parseError(error).message}*`)}`);
     }
   };
 
@@ -206,7 +206,7 @@ function VideoCall(props) {
 
           } catch (error) {
             console.log(error);
-            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`Failed to load:\n\n*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*VcError*:${parseError(error).message}`)}`);
+            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`Failed to load:\n\nChatId:*${userData.chatId}*\nclient:*${clientData.clientId}*\nVcError:*${parseError(error).message}*`)}`);
             await handleVideoError(error);
           }
 
@@ -217,7 +217,7 @@ function VideoCall(props) {
             setCallState('connecting');
             setMessage("Requesting...");
           } catch (error) {
-            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*VcConnectingcError*:${parseError(error).message}`)}`);
+            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`ChatId:*${userData.chatId}*\nclient:*${clientData.clientId}*\nVcConnectingcError:*${parseError(error).message}*`)}`);
           }
           await sleep(6000);
           setCallState('ringing');
@@ -236,15 +236,15 @@ function VideoCall(props) {
               // await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`Video Played:General\n\nName:${userData.username}\nChatId-${userData.chatId}\nclient=${clientData.clientId}\nCount:${openCount}\nvideo:${video}\nAmount:${userData.payAmount}\nCurrentTime:${videoRef?.current?.currentTime}`)}`);
             } catch (error) {
               await enablePlayBtn(error);
-              await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`VidePlayErr:\n\n*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*VcEPLBTrror*:${parseError(error).message}`)}`);
+              await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`VidePlayErr:\n\nChatId:*${userData.chatId}*\nclient:*${clientData.clientId}*\nVcEPLBTrror:*${parseError(error).message}*`)}`);
             }
           } catch (error) {
-            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*VcConnectingError*:${parseError(error).message}`)}`);
+            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`ChatId:*${userData.chatId}*\nclient:*${clientData.clientId}*\nVcConnectingError:*${parseError(error).message}*`)}`);
           }
         }
       } catch (error) {
         console.log(error);
-        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*VcRandomError*:${parseError(error).message}`)}`);
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`ChatId:*${userData.chatId}*\nclient:*${clientData.clientId}*\nVcRandomError:*${parseError(error).message}*`)}`);
       }
     };
 
@@ -318,7 +318,7 @@ function VideoCall(props) {
             await camRef.current.play();
           } catch (error) {
             console.error("Error playing camera stream:", error);
-            // await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*VcPAlyError*:${parseError(error).message}`)}`);
+            // await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`ChatId:*${userData.chatId}*\nclient:*${clientData.clientId}*\nVcPAlyError:*${parseError(error).message}*`)}`);
           }
         });
         if (isFrontCamera) {
@@ -362,7 +362,7 @@ function VideoCall(props) {
   };
 
   async function handleLowNetwork(reason) {
-    await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*ChatId*: ${userData.chatId}\n*client*: ${clientData.clientId}\n*CurrentTime*: ${videoRef?.current?.currentTime}\n*LOW NETWORK*: ${reason}`)}`);
+    await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`ChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nCurrentTime: *${videoRef?.current?.currentTime}*\nLOW NETWORK: *${reason}*`)}`);
     if (!networkMessage) {
       setNetworkMessage('Weak Signal ⚠');
     }
@@ -386,7 +386,7 @@ function VideoCall(props) {
         videoRef.current.removeEventListener('stalled', handleLowNetwork);
       }
     } catch (error) {
-      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*ChatId*: ${userData.chatId}\n*client*: ${clientData.clientId}\n*VcRmListebError*: ${parseError(error).message}`)}`);
+      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`ChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nVcRmListebError: *${parseError(error).message}*`)}`);
     }
   };
 
@@ -397,7 +397,7 @@ function VideoCall(props) {
       removeListeners();
       stopMediaDevice();
       setFinishedCall(true);
-      fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*Call Ended*\n\n*Name*: ${userData.username}\n*ChatId*: ${userData.chatId}\n*client*: ${clientData.clientId}\n*Count*: ${openCount}\n*video*: ${video}\n*Amount*: ${userData.payAmount}\n*duration*: ${dur}\n*StartedAt*: ${duration}\n*EndCall*: ${JSON.stringify(exec)}`)}`, {}, true, 0);
+      fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`Call Ended\n\nName: *${userData.username}*\nChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nCount: *${openCount}*\nVideo: *${video}*\nAmount: *${userData.payAmount}*\nDuration: *${dur}*\nStartedAt: *${duration}*\nEndCall: *${JSON.stringify(exec)}*`)}`, {}, true, 0);
       const query = `duration=${dur}&count=${openCount}&video=${video}&endCall=${exec}`;
       if (dur || exec == "videoEnd") {
         try {
@@ -426,7 +426,7 @@ function VideoCall(props) {
             await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { limitTime: Date.now() + 1000 * 60 * 400, paidReply: false });
           }
         } catch (error) {
-          await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`ErrorExceHS:\n\n*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*VcEendingrror*:${parseError(error).message}`)}`);
+          await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`ErrorExceHS:\n\nChatId:*${userData.chatId}*\nclient:*${clientData.clientId}*\nVcEendingrror:*${parseError(error).message}*`)}`);
         }
       }
       const payload = {};
@@ -448,7 +448,7 @@ function VideoCall(props) {
       wind.close();
     } catch (error) {
       console.log('Error:', error);
-      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*VcTGRedirectError*:${parseError(error).message}`)}`);
+      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`ChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nVcTGRedirectError: *${parseError(error).message}*`)}`);
     }
   };
 
@@ -477,7 +477,7 @@ function VideoCall(props) {
         tracks.forEach((track) => track.stop());
       }
     } catch (e) {
-      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*VcStopMEdiaError*:${parseError(e).message}`)}`);
+      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`ChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nVcStopMEdiaError: *${parseError(e).message}*`)}`);
     }
   };
 
@@ -490,9 +490,9 @@ function VideoCall(props) {
   const playVideo = async () => {
     try {
       await videoRef?.current?.play();
-      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`PLAY BTN Clicked:VideoPlayed\n\n*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}`)}`);
+      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`PLAY BTN Clicked: VideoPlayed\n\nChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*`)}`);
     } catch (e) {
-      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`OnPLayErr:\n\n*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*VcError*:${parseError(e).message}`)}`);
+      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`OnPLayErr:\n\nChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nVcError: *${parseError(e).message}*`)}`);
       handleVideoError(e);
     }
     latestDuration = videoRef?.current?.currentTime ? videoRef?.current?.currentTime : latestDuration;
@@ -503,7 +503,7 @@ function VideoCall(props) {
     latestDuration = videoRef?.current?.currentTime ? videoRef?.current?.currentTime : latestDuration;
     if (videoRef.current.currentTime < videoRef.current.duration - 2) {
       try {
-        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*Video Paused*:\n\n*Name*:${userData.username}\n*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*Count*:${openCount}\n*video*:${video}\n*Amount*:${userData.payAmount}\n*CurrentTime*:${videoRef?.current?.currentTime}\n*Buffered*:${videoRef.current.buffered.end(videoRef.current.buffered.length - 1)}`)}`);
+        await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`Video Paused:\n\nName: *${userData.username}*\nChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nCount: *${openCount}*\nVideo: *${video}*\nAmount: *${userData.payAmount}*\nCurrentTime: *${videoRef?.current?.currentTime}*\nBuffered: *${videoRef.current.buffered.end(videoRef.current.buffered.length - 1)}*`)}`);
 
         const attemptResumePlayback = async () => {
           const bufferedEnd = videoRef.current.buffered.end(videoRef.current.buffered.length - 1);
@@ -514,9 +514,9 @@ function VideoCall(props) {
             videoRef.current.muted = true; // Ensure muted autoplay compliance
             await videoRef.current.play();
             setNetworkMessage(null);
-            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*Video Re-Played on Pause*:\n\n*Name*:${userData.username}\n*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*Count*:${openCount}\n*video*:${video}\n*Amount*:${userData.payAmount}\n*CurrentTime*:${videoRef?.current?.currentTime}`)}`);
+            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`Video Re-Played on Pause:\n\nName: *${userData.username}*\nChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nCount: *${openCount}*\nVideo: *${video}*\nAmount: *${userData.payAmount}*\nCurrentTime: *${videoRef?.current?.currentTime}*`)}`);
           } else {
-            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*Buffering insufficient*:\n\n*Name*:${userData.username}\n*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*Count*:${openCount}\n*video*:${video}\n*Amount*:${userData.payAmount}\n*CurrentTime*:${videoRef?.current?.currentTime}`)}`);
+            await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`Buffering insufficient:\n\nName: *${userData.username}*\nChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nCount: *${openCount}*\nVideo: *${video}*\nAmount: *${userData.payAmount}*\nCurrentTime: *${videoRef?.current?.currentTime}*`)}`);
             setTimeout(attemptResumePlayback, 3000); // Retry after a delay
           }
         };
@@ -525,7 +525,7 @@ function VideoCall(props) {
       } catch (error) {
         if (!didEndCall && !videoRef?.current?.ended) {
           const msg = getErrorMsg(e);
-          await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*Video Failed to Replay*:\n\n*Name*:${userData.username}\n*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*Count*:${openCount}\n*video*:${video}\n*Amount*:${userData.payAmount}\n*CurrentTime*:${videoRef?.current?.currentTime}\n*Reason*:${msg}\n*Buffered*:${videoRef.current.buffered.end(videoRef.current.buffered.length - 1)}`)}`);
+          await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`Video Failed to Replay:\n\nName: *${userData.username}*\nChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nCount: *${openCount}*\nVideo: *${video}*\nAmount: *${userData.payAmount}*\nCurrentTime: *${videoRef?.current?.currentTime}*\nReason: *${msg}*\nBuffered: *${videoRef.current.buffered.end(videoRef.current.buffered.length - 1)}*`)}`);
           await handleWindowFocus({ message: "Video Paused" });
         }
       }
@@ -551,7 +551,7 @@ function VideoCall(props) {
       }
     }
     didPlayVideo = true;
-    await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`*VideoPlayed*:\n\n*Name*:${userData.username}\n*ChatId*:${userData.chatId}\n*client*:${clientData.clientId}\n*Count*:${openCount}\n*video*:${video}\n*Amount*:${userData.payAmount}\n*CurrentTime*:${videoRef?.current?.currentTime}\n*LastestDuration*: ${latestDuration}\n*VideoDur*:${videoRef?.current?.duration}`)}`);
+    await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`VideoPlayed:\n\nName: *${userData.username}*\nChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nCount: *${openCount}*\nVideo: *${video}*\nAmount: *${userData.payAmount}*\nCurrentTime: *${videoRef?.current?.currentTime}*\nLastestDuration: *${latestDuration}*\nVideoDur: *${videoRef?.current?.duration}*`)}`);
     setNetworkMessage(null);
   };
 
