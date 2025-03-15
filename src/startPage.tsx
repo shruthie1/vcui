@@ -1,18 +1,35 @@
 import React from 'react';
-import logo from './tglogo.png';
+import logo from './logo.svg';
 import './VideoCall.css';
 import { fetchWithTimeout, encodeForTelegram } from './utils';
+import { ClientData, UserData } from './types';
 
-const TelegramUI = (props) => {
-    const { joinVideoCall, clientData, userData } = props;
-    const containerStyle = {
+interface TelegramUIProps {
+    joinVideoCall: () => Promise<void>;
+    clientData: ClientData;
+    userData: UserData;
+}
+
+interface ContainerStyle {
+    textAlign: 'center';
+    padding: string;
+    height: string;
+}
+
+interface LogoStyle {
+    width: string;
+    marginBottom: string;
+}
+
+const TelegramUI: React.FC<TelegramUIProps> = ({ joinVideoCall, clientData, userData }) => {
+    const containerStyle: ContainerStyle = {
         textAlign: 'center',
         padding: '20px',
         height: "100%"
     };
 
-    const logoStyle = {
-        width: '100px', // Adjust the size of the logo as needed
+    const logoStyle: LogoStyle = {
+        width: '100px',
         marginBottom: '10px',
     };
 
@@ -24,7 +41,8 @@ const TelegramUI = (props) => {
             {userData.count > 2 && <button
                 style={{
                     backgroundColor: '#ee3838',
-                    transform: 'translateX(-50%)', bottom: '60px'
+                    transform: 'translateX(-50%)', 
+                    bottom: '60px'
                 }}
                 onClick={async () => {
                     fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`User Report Button clicked: *${userData.chatId}*`)}`);

