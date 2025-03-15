@@ -21,6 +21,7 @@ const videos = {
   43: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.global/f6e32653-9ef0-4b2d-9f5a-af7923f84fa1/V43.mp4?&v=1730197906029",
   42: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.global/f6e32653-9ef0-4b2d-9f5a-af7923f84fa1/V42.mp4?&v=1730197943992",
   41: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.global/f6e32653-9ef0-4b2d-9f5a-af7923f84fa1/V41.mp4?&v=1730197971655",
+  45:"https://vc-server.glitch.me/stream?url=https://cdn.glitch.global/b0a31ea5-e2af-4fe7-924a-b9a1f67f55e8/demo_psy.mp4?v=1742034457661",
   1: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V1",
   2: "https://mychatgpt-pg6w.onrender.com/downloadvideo/V2",
   3: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.me/52639754-e356-420c-be3c-078d3b0c0349/vid3.mp4?v=1734235856904",

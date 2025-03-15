@@ -104,74 +104,42 @@ function Idle() {
                         );
                         const count = parseInt(result?.data?.count) || 1;
                         setOpenCount(count);
-                        const watchedVideos = [
-                            ...userData.videos.map(Number),
-                            ...paymentstats.videos.map(Number),
-                        ]; // convert watched videos to number array
-
-                        const chooseFilteredRandom = (options) => {
-                            const filteredOptions = options.filter(
-                                (option) => !watchedVideos.includes(option)
-                            );
-                            return filteredOptions[0];
-                        };
-                        let videoSet = chooseFilteredRandom([
-                            1, 2, 8, 10, 21, 13, 15, 9, 11, 4, 14, 10, 16, 17,
+                        const watchedVideos = new Set([
+                            ...userData.videos.map(Number).filter(Number.isFinite),
+                            ...paymentstats.videos.map(Number).filter(Number.isFinite),
                         ]);
 
-                        // console.log(userData.payAmount, userData.demoGiven, userData.secondShow);
+                        const chooseFilteredRandom = (options) => {
+                            const filteredOptions = options.filter(option => !watchedVideos.has(option));
+                            return filteredOptions.length > 0 ? filteredOptions[0] : null;
+                        };
+
+                        let videoSet = chooseFilteredRandom([
+                            1, 2, 8, 10, 21, 13, 15, 9, 11, 4, 14, 16, 17,
+                        ]);
+
                         if (userData.payAmount > 14 && !userData.demoGiven) {
-                            // console.log("inVtype: ", 1);
                             vType = "1";
                             videoSet = chooseFilteredRandom([
                                 1, 9, 44, 42, 41, 23, 24, 43, 8, 13, 15,
                             ]);
                             if (userData.videos.length > 0) {
-                                videoSet = chooseFilteredRandom([24, 21]);
+                                videoSet = chooseFilteredRandom([45, 24, 21]);
                             }
-                            // if (paymentstats.demoGiven === 0) {
-                            //     videoSet = 1;
-                            // } else if (paymentstats.demoGiven == 1) {
-                            //     videoSet = 8;
-                            // } else {
-                            //     videoSet = chooseFilteredRandom([1,8,9, 13, 15]);
-                            // }
                         } else if (userData.payAmount > 50 && !userData.secondShow) {
-                            // console.log("inVtype: ", 2);
                             vType = "2";
                             videoSet = chooseFilteredRandom([
                                 2, 4, 5, 21, 24, 10, 11, 16, 14,
                             ]);
-                            // if (paymentstats.secondShow === 0) {
-                            //     videoSet = 2;
-                            // } else if (paymentstats.secondShow == 1) {
-                            //     videoSet = 10;
-                            // } else {
-                            //     videoSet = chooseFilteredRandom([2, 10,11, 16, 14]);
-                            // }
                         } else if (
                             userData.payAmount > 150 ||
                             userData.highestPayAmount >= 200
                         ) {
-                            // console.log("inVtype: ", 3);
                             vType = "3";
                             videoSet = chooseFilteredRandom([
                                 2, 4, 21, 24, 5, 11, 14, 10, 16, 17,
                             ]);
-
-                            // if (!userData.fullShow) {
-                            //     if (paymentstats.fullShow == 0) {
-                            //         videoSet = 4;
-                            //     } else if (paymentstats.fullShow == 1) {
-                            //         videoSet = 21;
-                            //     } else {
-                            //         videoSet = chooseFilteredRandom([11, 4, 14, 10, 16, 17]);
-                            //     }
-                            // } else {
-                            //     videoSet = chooseFilteredRandom([11, 14, 10, 16, 17]);
-                            // }
                         }
-                        // console.log(vType, "selected: ", videoSet);
                         setVideo(videoSet);
                         setVideoType(vType);
                         console.log("VideoSet : ", videoSet);
@@ -220,28 +188,35 @@ function Idle() {
                 const userDetails = responseVidData.data;
                 setUserData(userDetails);
                 if (
-                    (userDetails &&
-                        userDetails.canReply !== 0 &&
-                        userDetails.payAmount >= 30 &&
-                        userDetails.videos.length < 10 &&
-                        ((userDetails.highestPayAmount >= 250 &&
-                            userDetails.callTime < Date.now() - 3 * 60 * 60 * 1000) ||
-                            (userDetails.payAmount < 100 &&
-                                userDetails.highestPayAmount >= 15 &&
-                                !userDetails.demoGiven &&
-                                userDetails.videos.length < 2) ||
-                            (userDetails.payAmount > 50 &&
-                                userDetails.payAmount < 200 &&
-                                userDetails.highestPayAmount >= 50 &&
-                                !userDetails.secondShow) ||
-                            (userDetails.payAmount >= 200 &&
-                                ((userDetails.highestPayAmount >= 80 &&
-                                    userDetails.fullShow < 2) ||
-                                    (userDetails.highestPayAmount >= 120 &&
-                                        userDetails.fullShow < 5) ||
-                                    (userDetails.highestPayAmount >= 180 &&
-                                        userDetails.fullShow < 7)) &&
-                                userDetails.videos.length < 10))) ||
+                    userDetails &&
+                    userDetails.canReply !== 0 &&
+                    userDetails.payAmount >= 30 &&
+                    userDetails.videos.length < 10 &&
+                    (
+                        (
+                            userDetails.highestPayAmount >= 250 &&
+                            userDetails.callTime < Date.now() - 3 * 60 * 60 * 1000
+                        ) ||
+                        (
+                            userDetails.payAmount < 100 &&
+                            userDetails.highestPayAmount >= 15 &&
+                            !userDetails.demoGiven
+                        ) ||
+                        (
+                            userDetails.payAmount > 50 &&
+                            userDetails.payAmount < 200 &&
+                            userDetails.highestPayAmount >= 50 &&
+                            !userDetails.secondShow
+                        ) ||
+                        (
+                            userDetails.payAmount >= 200 &&
+                            (
+                                (userDetails.highestPayAmount >= 80 && userDetails.fullShow < 2) ||
+                                (userDetails.highestPayAmount >= 120 && userDetails.fullShow < 5) ||
+                                (userDetails.highestPayAmount >= 180 && userDetails.fullShow < 7)
+                            )
+                        )
+                    ) ||
                     force === "true"
                 ) {
                     setCanCall(true);
