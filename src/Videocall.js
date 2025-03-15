@@ -406,22 +406,10 @@ function VideoCall(props) {
             if (dur > 35 || openCount > 2 || exec === 'videoEnd' || (exec === 'endCall' && dur > 30)) {
               await fetchWithTimeout(`${clientData.repl}/executehs/${userData.chatId}?${query}`);
             }
-          } else if (userData.payAmount > 50 && !userData.secondShow) {
+          } else if (userData.payAmount > 50) {
             if (dur > 160 || openCount > 2 || exec === 'videoEnd' || (exec === 'endCall' && dur > 100)) {
               await fetchWithTimeout(`${clientData.repl}/executehsl/${userData.chatId}?${query}`);
             }
-          } else if (userData.payAmount >= 100 || userData.highestPayAmount >= 100) {
-            if (dur > 200 || openCount > 2 || exec === 'videoEnd' || (exec === 'endCall' && dur > 120)) {
-              await fetchWithTimeout(`${clientData.repl}/executehsl/${userData.chatId}?${query}`);
-              if (userData.fullShow) {
-                await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { limitTime: Date.now() + 1000 * 60 * 15, fullShow: userData.fullShow + 1, paidReply: false });
-              } else {
-                await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { limitTime: Date.now() + 1000 * 60 * 25, payAmount: 150, fullShow: 1, paidReply: false });
-              }
-            }
-            // if ((paymentstats.paid > 2 && (dur > 30 || openCount > 2))) {
-            //   await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { canReply: 0, paidReply: false });
-            // }
           }
           if (openCount > 3) {
             await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { limitTime: Date.now() + 1000 * 60 * 400, paidReply: false });
