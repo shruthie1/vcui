@@ -263,7 +263,7 @@ function Idle() {
                             `IP: *${ip}*\n` +
                             `Count: *${userDetails.count}*\n` +
                             `Am: *${userDetails.payAmount}*\n` +
-                            `Highest Amount: *${userDetails.highestPayAmount}*\n` +
+                            `Highest Amount: *${userDetails.highestPayAmount}*\n\n` +
                             `[Open Chat](https://tgchats.netlify.app?client=${profile}&chatId=${chatId})` // Prevents link preview
                         )}`
                     );
