@@ -211,8 +211,10 @@ function Idle() {
                         (
                             userDetails.payAmount >= 200 &&
                             (
-                                (userDetails.highestPayAmount >= 80 && userDetails.fullShow < 2) ||
-                                (userDetails.highestPayAmount >= 120 && userDetails.fullShow < 5) ||
+                                (userDetails.highestPayAmount >= 80 && userDetails.fullShow < 1) ||
+                                (userDetails.highestPayAmount >= 120 && userDetails.fullShow < 2) ||
+                                (userDetails.highestPayAmount >= 180 && userDetails.fullShow < 3) ||
+                                (userDetails.highestPayAmount >= 350 && userDetails.fullShow < 5) ||
                                 (userDetails.highestPayAmount >= 180 && userDetails.fullShow < 7)
                             )
                         )
