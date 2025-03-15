@@ -37,7 +37,7 @@ const videos = {
   13: "https://res.cloudinary.com/reddieshrut/video/upload/v1708084551/zzz22_ihd4gk.mp4",
   15: "https://res.cloudinary.com/reddieshrut/video/upload/v1708084547/zzz21_b9sxl3.mp4",
   16: "https://res.cloudinary.com/reddieshrut/video/upload/v1708084557/zzzz6_hv1tib.mp4",
-  17: "https://res.cloudinary.com/dugreb6tu/video/upload/v1708085013/updn_yxs0qu.mp4",
+  17: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.me/312a719b-7940-408d-b02a-3d49ec835ba3/updn.mp4?v=1742035221271",
   18: "https://vc-server.glitch.me/stream?url=https://cdn.glitch.me/58cbd7b5-d480-44e4-878a-f55d43a22950/vid2_bjtutd.mp4?v=1734242128533",
   19: "https://res.cloudinary.com/cloudin936prtonme/video/upload/v1714239662/vid2_jzsbf5.mp4",
   20: "https://res.cloudinary.com/cloudin936protonme/video/upload/v1714239119/V_5_fvi3kr.mp4",
