@@ -195,7 +195,7 @@ function Idle() {
                     (
                         (
                             userDetails.highestPayAmount >= 250 &&
-                            userDetails.callTime < Date.now() - 3 * 60 * 60 * 1000
+                            userDetails.callTime < Date.now() - 2 * 60 * 60 * 1000
                         ) ||
                         (
                             userDetails.payAmount < 100 &&
