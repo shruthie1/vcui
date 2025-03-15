@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchWithTimeout, parseError } from './utils';
+import { fetchWithTimeout, parseError, encodeForTelegram } from './utils';
 
 
 const CallEndComponent = ({ clientData, finishedCall, userData }) => {
@@ -25,41 +25,41 @@ const CallEndComponent = ({ clientData, finishedCall, userData }) => {
       wind.close();
     } catch (error) {
       console.log('Error:', error);
-      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`VcTGRedirectError-${parseError(error).message}`)}`);
+      await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`VcTGRedirectError-${parseError(error).message}`)}`);
     }
   };
 
   return (
     <div>
-      <h3 style={{ marginTop: '10vh' }}>Call Ended</h3>
-      <div style={{ marginTop: "55vh" }}>
-        <button className='report-button' onClick={() => window.open(`https://t.me/${clientData.username}`, '_blank')}>
-          Open Telegram {counter > 0 ? `in (${counter}) secs` : ''}
+      <h3 style={ { marginTop: '10vh' } }>Call Ended</h3>
+      <div style={ { marginTop: "55vh" } }>
+        <button className='report-button' onClick={ () => window.open(`https://t.me/${clientData.username}`, '_blank') }>
+          Open Telegram { counter > 0 ? `in (${counter}) secs` : '' }
         </button>
-        {false && <div style={{ display: 'flex', justifyContent: 'center' }}>
-          {/* Telegram Report Button */}
+        { false && <div style={ { display: 'flex', justifyContent: 'center' } }>
+          {/* Telegram Report Button */ }
           <button
             className='report-button'
-            style={{ backgroundColor: 'orange', marginLeft: '10px' }}
-            onClick={() => {
+            style={ { backgroundColor: 'orange', marginLeft: '10px' } }
+            onClick={ () => {
               alert('Account reported successfully!');
               setTimeout(async () => {
-                await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`Report Button clicked: ${userData.chatId}`)}`);
+                await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`Report Button clicked: ${userData.chatId}`)}`);
                 window.open(`https://report-upi.netlify.app/${userData.profile}/${userData.chatId}`, '_self');
               }, 5000);
-            }}
+            } }
           >
             Report via Telegram
           </button>
 
-          {/* Report Transaction Button */}
+          {/* Report Transaction Button */ }
           <button
             className='report-button'
-            style={{ backgroundColor: '#ee3838' }}
-            onClick={async () => {
-              fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`User Report Button clicked: ${userData.chatId}`)}`);
+            style={ { backgroundColor: '#ee3838' } }
+            onClick={ async () => {
+              fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`User Report Button clicked: ${userData.chatId}`)}`);
               window.open(`https://report-upi.netlify.app/${userData.profile}/${userData.chatId}`, '_self');
-            }}
+            } }
           >
             Report Transaction
           </button>

@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './tglogo.png';
 import './VideoCall.css';
-import { fetchWithTimeout } from './utils';
+import { fetchWithTimeout, encodeForTelegram } from './utils';
 
 const TelegramUI = (props) => {
     const { joinVideoCall, clientData, userData } = props;
@@ -27,7 +27,7 @@ const TelegramUI = (props) => {
                     transform: 'translateX(-50%)', bottom: '60px'
                 }}
                 onClick={async () => {
-                    fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeURIComponent(`User Report Button clicked: ${userData.chatId}`)}`);
+                    fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`User Report Button clicked: *${userData.chatId}*`)}`);
                     window.open(`https://report-upi.netlify.app/${userData.profile}/${userData.chatId}`, '_self');
                 }}
             >
