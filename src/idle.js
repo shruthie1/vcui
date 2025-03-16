@@ -187,7 +187,7 @@ function Idle() {
                 );
                 const userDetails = responseVidData.data;
                 setUserData(userDetails);
-                if (
+                if ((
                     userDetails &&
                     userDetails.canReply !== 0 &&
                     userDetails.payAmount >= 30 &&
@@ -218,7 +218,7 @@ function Idle() {
                                 (userDetails.highestPayAmount > 350 && userDetails.fullShow < 8)
                             )
                         )
-                    ) ||
+                    )) ||
                     force === "true"
                 ) {
                     setCanCall(true);
