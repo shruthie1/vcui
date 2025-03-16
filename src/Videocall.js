@@ -71,11 +71,12 @@ function VideoCall(props) {
     // };
     // window.addEventListener('popstate', handleBackButton);
     // window.addEventListener('beforeunload', handleBackButton);
-    setTimeout(() => {
+    setTimeout(async () => {
+      await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { callTime: Date.now() });
       if (didStartVideo && !didPlayVideo) {
         enablePlayBtn("Not started playing");
       }
-    }, 12000);
+    }, 10000);
   }, []);
 
   const handleVideoEnded = async () => {
