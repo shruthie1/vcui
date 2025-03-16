@@ -364,7 +364,7 @@ function VideoCall(props) {
   };
 
   async function handleLowNetwork(reason) {
-    await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`ChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nCurrentTime: *${videoRef?.current?.currentTime}*\nLOW NETWORK: *${reason}*`)}`);
+    await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`ChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nCurrentTime: *${videoRef?.current?.currentTime}*\nvideo: *${video}*\nLOW NETWORK: *${reason}*`)}`);
     if (!networkMessage) {
       setNetworkMessage('Weak Signal ⚠');
     }
