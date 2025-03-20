@@ -66,6 +66,14 @@ function VideoCall(props) {
   const selfCameraMainRef = useRef();
 
   useEffect(() => {
+    if(networkMessage !== null) {
+      setTimeout(() => {
+        setNetworkMessage(null);
+      }, 4000);
+    }
+  }, [networkMessage]);
+
+  useEffect(() => {
     // const handleBackButton = (event) => {
     //   event.preventDefault();
     // };
@@ -275,8 +283,6 @@ function VideoCall(props) {
           if (didStartVideo) {
             if (!didPlayVideo || videoRef?.current?.paused) {
               handleWindowFocus("progress");
-            } else {
-              setNetworkMessage(null);
             }
           }
           console.log(`Buffered: ${bufferedEnd} / ${duration}`);
@@ -286,7 +292,11 @@ function VideoCall(props) {
         }
       });
       videoRef.current.addEventListener("playing", () => {
-        setNetworkMessage(null);
+        console.log("Video is playing");
+        didPlayVideo = true;
+        if (videoRef.current) {
+          videoRef.current.muted = false;
+        }
       });
       videoRef.current.addEventListener('waiting', () => { handleLowNetwork("waiting"); });
       videoRef.current.addEventListener('stalled', () => { handleLowNetwork("stalled"); });
@@ -298,7 +308,7 @@ function VideoCall(props) {
     setTimeout(() => {
       tIid = setInterval(() => {
         if (!videoRef?.current?.paused) {
-          setNetworkMessage(null);
+          console.log("Video is playing properly");
         } else {
           handleLowNetwork('Video Paused');
         }
@@ -357,9 +367,7 @@ function VideoCall(props) {
       // Detect if the connection is slow
       if (downlink < 1 || effectiveType === '2g') {
         handleLowNetwork("Network Change");
-      } else {
-        setNetworkMessage(null);
-      }
+      } 
     }
   };
 
@@ -503,7 +511,6 @@ function VideoCall(props) {
           if (bufferedEnough) {
             videoRef.current.muted = true; // Ensure muted autoplay compliance
             await videoRef.current.play();
-            setNetworkMessage(null);
             await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`Video Re-Played on Pause:\n\nName: *${userData.username}*\nChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nCount: *${openCount}*\nVideo: *${video}*\nAmount: *${userData.payAmount}*\nCurrentTime: *${videoRef?.current?.currentTime}*`)}`);
           } else {
             await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`Buffering insufficient:\n\nName: *${userData.username}*\nChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nCount: *${openCount}*\nVideo: *${video}*\nAmount: *${userData.payAmount}*\nCurrentTime: *${videoRef?.current?.currentTime}*`)}`);
@@ -542,7 +549,6 @@ function VideoCall(props) {
     }
     didPlayVideo = true;
     await fetchWithTimeout(`https://uptimechecker2.glitch.me/sendtochannel?chatId=-1001823103248&msg=${encodeForTelegram(`VideoPlayed:\n\nName: *${userData.username}*\nChatId: *${userData.chatId}*\nClient: *${clientData.clientId}*\nCount: *${openCount}*\nVideo: *${video}*\nAmount: *${userData.payAmount}*\nCurrentTime: *${videoRef?.current?.currentTime}*\nLastestDuration: *${latestDuration}*\nVideoDur: *${videoRef?.current?.duration}*`)}`);
-    setNetworkMessage(null);
   };
 
   return (

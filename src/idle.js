@@ -225,6 +225,7 @@ function Idle() {
                     const demoStats = await fetchWithTimeout(
                         `https://uptimechecker2.glitch.me/paymentstats?chatId=${chatId}&profile=${responseUserInfo.data?.dbcoll}`
                     );
+                    console.log(demoStats.data)
                     if (demoStats?.data) {
                         setPaymentstats(demoStats?.data);
                     }
