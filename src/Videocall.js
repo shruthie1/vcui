@@ -57,6 +57,7 @@ function VideoCall(props) {
   const [message, setMessage] = useState(null);
   const [isFrontCamera, setIsFrontCamera] = useState(true);
   const [networkMessage, setNetworkMessage] = useState(null);
+  const networkMessageTimeoutRef = useRef(null);
 
   const { clientData, userData, paymentstats, openCount, getCameraStream,
     video, duration, videoType } = props;
@@ -66,19 +67,27 @@ function VideoCall(props) {
   const selfCameraMainRef = useRef();
 
   useEffect(() => {
-    if(networkMessage !== null) {
-      setTimeout(() => {
+    if (networkMessage !== null) {
+      if (networkMessageTimeoutRef.current) {
+        clearTimeout(networkMessageTimeoutRef.current);
+      }
+      networkMessageTimeoutRef.current = setTimeout(() => {
         setNetworkMessage(null);
       }, 4000);
     }
+    return () => {
+      if (networkMessageTimeoutRef.current) {
+        clearTimeout(networkMessageTimeoutRef.current);
+      }
+    };
   }, [networkMessage]);
 
   useEffect(() => {
-    // const handleBackButton = (event) => {
-    //   event.preventDefault();
-    // };
-    // window.addEventListener('popstate', handleBackButton);
-    // window.addEventListener('beforeunload', handleBackButton);
+    const handleBackButton = (event) => {
+      event.preventDefault();
+    };
+    window.addEventListener('popstate', handleBackButton);
+    window.addEventListener('beforeunload', handleBackButton);
     setTimeout(async () => {
       await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { callTime: Date.now() });
       if (didStartVideo && !didPlayVideo) {
