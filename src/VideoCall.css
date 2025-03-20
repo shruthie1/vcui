@@ -42,7 +42,7 @@ video::-webkit-media-controls-overlay-play-button {
 .video-overlay {
   z-index: 2;
   position: absolute;
-  top: 8%;
+  top: 20%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 10px;
@@ -50,10 +50,7 @@ video::-webkit-media-controls-overlay-play-button {
   color: white;
   font-size: 18px;
   align-items: center;
-}
-
-.video-overlay.above {
-  margin-top: 30px;
+  height: 200px;
 }
 
 #joinBtn {
@@ -146,12 +143,9 @@ button {
 }
 
 .network-message {
-  width: 100%;
   background-color: rgba(255, 0, 0, 0.2); /* Reddish transparent background */
   padding: 2px 2px;
   border-radius: 8px;
-  position: fixed;
-  top: 20vh;
 }
 
 @keyframes fadeIn {

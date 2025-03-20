@@ -83,11 +83,11 @@ function VideoCall(props) {
   }, [networkMessage]);
 
   useEffect(() => {
-    const handleBackButton = (event) => {
-      event.preventDefault();
-    };
-    window.addEventListener('popstate', handleBackButton);
-    window.addEventListener('beforeunload', handleBackButton);
+    // const handleBackButton = (event) => {
+    //   event.preventDefault();
+    // };
+    // window.addEventListener('popstate', handleBackButton);
+    // window.addEventListener('beforeunload', handleBackButton);
     setTimeout(async () => {
       await axios.post(`https://uptimechecker2.glitch.me/updateUserData/${userData.chatId}?profile=${userData.profile}`, { callTime: Date.now() });
       if (didStartVideo && !didPlayVideo) {

@@ -33,16 +33,19 @@ const TimerHeader = (props) => {
         e.preventDefault();
     };
     return (
-        <div onContextMenu={handleContextMenu}>
-            {props.message && (
-                <div className="video-overlay above">
-                    <p>{props.message}</p>
-                </div>
-            )}
+        <div onContextMenu={ handleContextMenu }>
             <div className="video-overlay">
-                <h3>{props.name}</h3>
-                <p style={{ display: (!props.message && props.callState == 'playing') ? 'block' : 'none' }}>{formatTime(callDuration)}</p>
-                {props.networkMessage && <p className="network-message blink" style={{marginTop: '30px'}}>{props.networkMessage}</p>}
+                <h3>{ props.name }</h3>
+                { props.message && (
+                    <div className="state-message">
+                        <p>{ props.message }</p>
+                    </div>
+                ) }
+                {
+                    !props.message &&
+                    <p style={ { display: (!props.message && props.callState == 'playing') ? 'block' : 'none' } }>{ formatTime(callDuration) }</p>
+                }
+                { props.networkMessage && <p className="network-message blink" style={ { marginTop: '65px' } }>{ props.networkMessage }</p> }
             </div>
 
         </div>
