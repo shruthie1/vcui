@@ -367,7 +367,7 @@ function Idle() {
                                             );
                                         } }
                                     >
-                                        { isReporting ? "Please wait..." : "Report Transaction" }
+                                        { isReporting ? "Please wait..." : "Report Fraud" }
                                     </button>
                                 </div>
                             </div>
