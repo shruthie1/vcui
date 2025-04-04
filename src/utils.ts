@@ -32,7 +32,6 @@ export async function fetchWithTimeout(
                 url,
                 headers: { 'Content-Type': 'application/json', ...options.headers },
                 cancelToken: source.token,
-                family: version
             });
             clearTimeout(id);
             return response;

@@ -1,6 +1,6 @@
 // AppRouter.tsx
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Idle from './idle';
 
 export interface RouteParams {
@@ -13,11 +13,11 @@ export interface RouteParams {
 const AppRouter: React.FC = () => {
     return (
         <Router>
-            <Routes>
-                <Route path="/:profile/:chatId" Component={Idle} />
-                <Route path="/:profile/:chatId/:defvid" Component={Idle} />
-                <Route path="/:profile/:chatId/:defvid/:force" Component={Idle} />
-            </Routes>
+            <Switch>
+                <Route path="/:profile/:chatId" component={Idle} />
+                <Route path="/:profile/:chatId/:defvid" component={Idle} />
+                <Route path="/:profile/:chatId/:defvid/:force" component={Idle} />
+            </Switch>
         </Router>
     );
 };

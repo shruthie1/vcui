@@ -15,7 +15,7 @@ interface CameraStreams {
 let ip: string = "Not Found";
 
 const Idle: React.FC = () => {
-    const params = useParams();
+    const params:any = useParams();
     const profile = params.profile ?? "";
     const chatId = params.chatId ?? "";
     const defvid = params.defvid;
@@ -50,7 +50,7 @@ const Idle: React.FC = () => {
             const cameraType = isFrontCamera ? "front" : "back";
             if (cameraStreams[cameraType]) {
                 console.log(`stream exist : isFront-${isFrontCamera}`);
-                return cameraStreams[cameraType];
+                return cameraStreams[cameraType] as MediaStream;
             } else {
                 console.log(`stream Does not exist : isFront-${isFrontCamera}`);
             }
